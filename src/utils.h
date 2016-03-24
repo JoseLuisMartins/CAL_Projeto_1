@@ -1,14 +1,14 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-typedef enum{
+enum Transport {
 
 	NONE,
 	TRAIN,
 	BUS,
 	SUBWAY
 
-} Transport;
+};
 
 
 #endif

@@ -8,15 +8,20 @@
 #include "Graph.h"
 
 Graph::Graph() {
-	// TODO Auto-generated constructor stub
 
 }
 
-void Graph::addVertex(Vertex& vert){
+void Graph::addVertex(Vertex* vert){
 	verts.push_back(vert);
 }
 
+
+void Graph::imprime(){
+	for (unsigned int var = 0; var < verts.size(); ++var) {
+		verts[var]->imprime();
+	}
+}
+
 Graph::~Graph() {
-	// TODO Auto-generated destructor stub
 }
 

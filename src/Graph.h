@@ -8,18 +8,21 @@
 #ifndef GRAPH_H_
 #define GRAPH_H_
 
-#include "Vertex.h"
+#include "VertexAndEdge.h"
 #include <vector>
+#include "utils.h"
 
 class Graph {
 
-	vector<Vertex&> verts;
+	vector<Vertex*> verts;
 public:
 	Graph();
 
-	void addVertex(Vertex& vert);
+	void addVertex(Vertex* vert);
 
 	virtual ~Graph();
+
+	void imprime();
 };
 
 #endif /* GRAPH_H_ */
