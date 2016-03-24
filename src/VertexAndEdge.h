@@ -18,6 +18,7 @@ class Edge {
 	int distance;
 	int duration;
 
+
 public:
 	Edge(Vertex* p1, Vertex* p2,int price, int distance, int duration);
 
@@ -35,13 +36,16 @@ class Vertex {
 	string name;
 	Transport type;
 	vector<Edge*> edges;
+	unsigned int cost=-1;
+	Vertex *lastVertex=NULL;
 
 public:
 
 	Vertex(string name,enum Transport type);
-
+	int getCost();
+	void setCost(int newCost);
 	virtual ~Vertex();
-
+	void reset();
 	string getName() const;
 	Transport getType() const;
 	void addEdge(Edge* edge);

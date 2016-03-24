@@ -68,4 +68,17 @@ Edge::~Edge() {
 }
 
 
+void Vertex::reset(){
+	cost=-1;
+	lastVertex=NULL;
+}
+
+int Vertex::getCost(){
+	return cost;
+}
+
+void Vertex::setCost(int newCost){
+	cost=newCost;
+}
+
 
