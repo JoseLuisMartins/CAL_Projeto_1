@@ -33,36 +33,60 @@ void Graph::massiveReset(){
 
 
 
-vector<Vertex*> Graph::findWay(Vertex *start,Vertex *finish, int(*cost)(Edge*, Vertex* )){
+list<Vertex*> Graph::findWay(Vertex *start,Vertex *finish, int(*cost)(Edge*, Vertex* )){
 	massiveReset();
 
-	list<VertexHandler> list;
+	list<Vertex*> res;
+
+	list<VertexHandler> listVH;
 	VertexHandler vh;
 	vh.v=start;
-	list.push_front(vh);
+	listVH.push_front(vh);
+	start->setCost(0);
 
-	while(!list.empty()){
-		list.sort();
-		Vertex v=list.pop_front();
+	while(!listVH.empty()){
 
+		listVH.sort();
 
+		vh= listVH.front();
+		listVH.pop_front();
+		Vertex *v=vh.v;
+		vector<Edge*>& edges=v->getEdges();
 
+		for (unsigned int i = 0; i < edges.size(); ++i) {
 
+			unsigned int weight=cost(edges[i],v);
+			Vertex *v2=edges[i]->GetDest(v);
+
+			if(v->getCost() + weight < v2->getCost()){
+
+				v2->setCost(v->getCost()+weight);
+				v2->setLastVertex(v);
+				vh.v=v2;
+				list<VertexHandler>::iterator itr =find(listVH.begin(),listVH.end(),vh);
+
+				if(itr == listVH.end()){
+					vh.v=v2;
+					listVH.push_back(vh);
+				}
+			}
+		}
+	}
+
+	if(finish->getLastVertex()==NULL)
+		return res;
+
+	Vertex* vaux=finish;
+
+	while(vaux != NULL){
+		res.push_front(vaux);
+		vaux=vaux->getLastVertex();
 	}
 
 
-
+	return res;
 
 
 }
-
-
-
-
-
-
-
-
-
 
 

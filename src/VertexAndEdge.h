@@ -4,7 +4,15 @@
 #include <string>
 #include <vector>
 #include <iostream>
-#include "utils.h"
+
+enum Transport {
+
+	NONE,
+	TRAIN,
+	BUS,
+	SUBWAY
+
+};
 
 using namespace std;
 
@@ -49,9 +57,12 @@ public:
 	string getName() const;
 	Transport getType() const;
 	void addEdge(Edge* edge);
+	vector<Edge*>& getEdges();
+	void setLastVertex(Vertex *v);
+	Vertex* getLastVertex();
 	void imprime();
 };
 
-inline bool operator!=(const Vertex& v1, const Vertex& v2);
+inline bool operator==(const Vertex& v1, const Vertex& v2);
 
 #endif

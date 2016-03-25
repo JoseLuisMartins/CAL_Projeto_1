@@ -5,6 +5,8 @@
 
 #include "Graph.h"
 #include "VertexAndEdge.h"
+#include "utils.h"
+
 using namespace std;
 
 void MiniSlave(Vertex& v1, Vertex& v2, Edge&e){
@@ -115,8 +117,14 @@ int main() {
 	Edge e16(&p4c,&p5c, 100,	80,	11);
 	MiniSlave(p4c,p5c,e16);
 
-	grafo.imprime();
+	//grafo.imprime();
 
+	list<Vertex*> way=grafo.findWay(&p5,&p3,distCost);
+	cout << "batatas-> "<< way.size()<< endl;
+
+	for (list<Vertex*>::iterator i= way.begin(); i != way.end() ; i++) {
+		(*i)->imprime();
+	}
 
 
 	return 0;

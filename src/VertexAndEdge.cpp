@@ -34,10 +34,15 @@ void Vertex::imprime(){
 	cout << name << " : " << type << endl;
 }
 
-inline bool operator!=(const Vertex& v1, const Vertex& v2){
+vector<Edge*>& Vertex::getEdges(){
+	return edges;
+}
+
+inline bool operator==(const Vertex& v1, const Vertex& v2){
 	return (v1.getName() == v2.getName() && v1.getType() == v2.getType());
 
 }
+
 
 
 Edge::Edge(Vertex* p1, Vertex* p2,int price, int distance, int duration) {
@@ -79,6 +84,15 @@ int Vertex::getCost(){
 
 void Vertex::setCost(int newCost){
 	cost=newCost;
+}
+
+void Vertex::setLastVertex(Vertex *v){
+	lastVertex=v;
+}
+
+
+Vertex* Vertex::getLastVertex(){
+	return lastVertex;
 }
 
 

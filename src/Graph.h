@@ -12,6 +12,11 @@
 #include <vector>
 #include "utils.h"
 #include <list>
+#include <algorithm>
+#include <iterator>
+
+
+using namespace std;
 
 class Graph {
 
@@ -22,7 +27,7 @@ public:
 
 	void addVertex(Vertex* vert);
 
-	vector<Vertex*> findWay(Vertex *start,Vertex *finish, int(*f)(Edge*,  Vertex* ));
+	list<Vertex*>  findWay(Vertex *start,Vertex *finish, int(*cost)(Edge*,  Vertex* ));
 
 	void massiveReset();
 	virtual ~Graph();
