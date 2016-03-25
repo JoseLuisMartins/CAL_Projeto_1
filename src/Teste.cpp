@@ -119,7 +119,7 @@ int main() {
 
 	//grafo.imprime();
 
-	list<Vertex*> way=grafo.findWay(&p5,&p3,distCost);
+	list<Vertex*> way=grafo.findWay(&p5,&p3,priceCost);
 	cout << "batatas-> "<< way.size()<< endl;
 
 	for (list<Vertex*>::iterator i= way.begin(); i != way.end() ; i++) {
