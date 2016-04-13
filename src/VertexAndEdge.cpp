@@ -13,11 +13,16 @@ template<class A, class B>
 Vertex<A,B>::Vertex(A info, unsigned int id) {
 	this->info = info;
 	this->id = id;
+	this->cost=-1;
+	this->lastVertex=NULL;
 }
 
 template<class A, class B>
 Vertex<A,B>::Vertex(A info) {
 	this->info = info;
+	this->id = 0;
+	this->cost=-1;
+	this->lastVertex=NULL;
 }
 
 template<class A, class B>
@@ -42,7 +47,7 @@ vector<Edge<A,B>> Vertex<A,B>::getEdges(){
 template<class A, class B>
 inline bool operator==(const Vertex<A,B>& v1, const Vertex<A,B>& v2){
 
-	return (v1.getInfo() == v2.getInfo()));
+	return (v1.getInfo() == v2.getInfo());
 
 }
 

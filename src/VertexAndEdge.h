@@ -42,8 +42,8 @@ class Vertex{
 	A info;
 
 	vector<Edge<A,B>> edges;
-	unsigned int cost=-1;
-	Vertex *lastVertex=NULL;
+	unsigned int cost;
+	Vertex *lastVertex;
 
 public:
 
