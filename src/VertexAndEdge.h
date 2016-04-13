@@ -41,24 +41,26 @@ class Vertex{
 
 	A info;
 
-	vector<Edge<A,B>> edges;
+	vector<Edge<A,B> > edges;
 	unsigned int cost;
-	Vertex *lastVertex;
+	Vertex<A,B> *lastVertex;
 
 public:
 
 	Vertex(A info, unsigned int id);
 	Vertex(A info);
-	int getCost();
+	unsigned int getCost();
 	void setCost(int newCost);
 	virtual ~Vertex();
 	void reset();
 	void addEdge(Edge<A,B> edge);
 	A getInfo() const;
-	vector<Edge<A,B>> getEdges();
-	void setLastVertex(Vertex *v);
+	vector<Edge<A,B> > getEdges();
+	void setLastVertex(Vertex<A,B> *v);
 	Vertex<A,B>* getLastVertex();
 	void imprime();
+	bool removeEdgeTo(Vertex<A,B> *dest);
+	void addEdge(Edge<A,B>* d,B w);
 };
 
 template <class A, class B>

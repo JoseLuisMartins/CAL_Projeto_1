@@ -40,7 +40,7 @@ void Vertex<A,B>::imprime(){
 }
 
 template<class A, class B>
-vector<Edge<A,B>> Vertex<A,B>::getEdges(){
+vector<Edge<A,B> > Vertex<A,B>::getEdges(){
 	return edges;
 }
 
@@ -75,7 +75,7 @@ void Vertex<A,B>::reset(){
 }
 
 template<class A, class B>
-int Vertex<A,B>::getCost(){
+unsigned int Vertex<A,B>::getCost(){
 	return cost;
 }
 
@@ -98,5 +98,28 @@ template<class A, class B>
 Vertex<A,B>* Vertex<A,B>::getLastVertex(){
 	return lastVertex;
 }
+
+template<class A, class B>
+bool Vertex<A,B>::removeEdgeTo(Vertex<A,B> *dest){
+	for(unsigned int i = 0; i < edges.size(); i++){
+		if(edges[i].GeDest() == dest){
+			edges.erase(edges.begin() + i);
+			return true;
+		}
+	}
+	return false;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 

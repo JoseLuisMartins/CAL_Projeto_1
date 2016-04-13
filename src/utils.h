@@ -4,27 +4,31 @@
 
 #include "VertexAndEdge.h"
 
+template<class A,class B>
+int distCost(Edge<A,B> *e,Vertex<A,B> *v);
 
-int distCost(Edge *e,Vertex *v);
+template<class A,class B>
+int priceCost(Edge<A,B> *e,Vertex<A,B> *v);
 
-int priceCost(Edge *e,Vertex *v);
+template<class A,class B>
+int durationCost(Edge<A,B> *e,Vertex<A,B> *v);
 
-int durationCost(Edge *e,Vertex *v);
+template<class A,class B>
+int changeStationCost(Edge<A,B> *e,Vertex<A,B> *v);
 
-int changeStationCost(Edge *e,Vertex *v);
-
-
+template<class A,class B>
 struct VertexHandler{
-	Vertex *v;
+	Vertex<A,B> *v;
 };
 
 
-
-inline bool operator<(VertexHandler& v1,VertexHandler& v2){
+template<class A,class B>
+inline bool operator<(VertexHandler<A,B>& v1,VertexHandler<A,B>& v2){
 		return v1.v->getCost() < v2.v->getCost();
 }
 
-inline bool operator==(const VertexHandler& v1,const VertexHandler& v2){
+template<class A,class B>
+inline bool operator==(const VertexHandler<A,B>& v1,const VertexHandler<A,B>& v2){
 		return (v1.v == v2.v);
 }
 

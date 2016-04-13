@@ -7,39 +7,93 @@
 
 #include "Graph.h"
 
-Graph::Graph() {
-
+template <class A, class B>
+Graph<A,B>::Graph() {
 }
 
-void Graph::addVertex(Vertex* vert){
-	verts.push_back(vert);
+template <class A, class B>
+Graph<A,B>::~Graph() {
 }
 
 
-void Graph::imprime(){
-	for (unsigned int var = 0; var < verts.size(); ++var) {
-		verts[var]->imprime();
+template <class A, class B>
+bool Graph<A,B>::addVertex(A inf){
+	for(unsigned int i = 0; i < verts.size(); i++){
+		if(verts[i]->getInfo() == inf)
+			return false;
 	}
+	Vertex<A,B>* a = new Vertex<A,B>(inf);
+	verts.push_back(a);
+	return true;
 }
 
-Graph::~Graph() {
+template <class A, class B>
+bool Graph<A,B>::removeVertex(A inf){
+	for(unsigned int i = 0; i < verts.size(); i++){
+		if(verts[i]->getInfo() == inf){
+			Vertex<A,B>* v = verts[i];
+			verts.erase(verts.begin() + i--);
+			for(unsigned int j = 0; j < verts.size(); j++){
+				verts[i]->removeEdgeTo(v);
+			}
+			delete v;
+			return true;
+		}
+	}
+	return false;
 }
 
-void Graph::massiveReset(){
-	for (int i = 0; i < verts.size(); ++i) {
+template <class A,class B>
+bool Graph<A,B>::addEdge(A source, A dest,B w){
+	Vertex<A,B> *vS, *vD;
+	vS = NULL;
+	vD = NULL;
+	for(unsigned int i = 0; i < verts.size(); i++){
+		if(verts[i]->getInfo() == source)
+			vS = verts[i];
+		if(verts[i]->getInfo() == dest)
+			vD = verts[i];
+	}
+	if(vS == NULL || vD == NULL)
+		return false;
+	Edge<A,B> e(vD,w);
+	vS->addEdge(e);
+	return true;
+}
+
+template <class A, class B>
+bool Graph<A,B>::removeEdge(A source,A dest){
+	Vertex<A,B> *vS, *vD;
+	vS = NULL;
+	vD = NULL;
+	for(unsigned int i = 0; i < verts.size(); i++){
+		if(verts[i]->getInfo() == source)
+			vS = verts[i];
+		if(verts[i]->getInfo() == dest)
+			vD = verts[i];
+	}
+	if(vS == NULL || vD == NULL)
+		return false;
+	return vS->removeEdgeTo(vD);
+}
+
+
+template <class A,class B>
+void Graph<A,B>::massiveReset(){
+	for (unsigned int i = 0; i < verts.size(); ++i) {
 		verts[i]->reset();
 	}
 }
 
 
-
-list<Vertex*> Graph::findWay(Vertex *start,Vertex *finish, int(*cost)(Edge*, Vertex* )){
+template<class A,class B>
+list<Vertex<A,B>*> Graph<A,B>::findWay(Vertex<A,B> *start,Vertex<A,B> *finish, int(*cost)(Edge<A,B>*, Vertex<A,B>* )){
 	massiveReset();
 
-	list<Vertex*> res;
+	list<Vertex<A,B>*> res;
 
-	list<VertexHandler> listVH;
-	VertexHandler vh;
+	list<VertexHandler<A,B> > listVH;
+	VertexHandler<A,B> vh;
 	vh.v=start;
 	listVH.push_front(vh);
 	start->setCost(0);
@@ -50,20 +104,20 @@ list<Vertex*> Graph::findWay(Vertex *start,Vertex *finish, int(*cost)(Edge*, Ver
 
 		vh= listVH.front();
 		listVH.pop_front();
-		Vertex *v=vh.v;
-		vector<Edge*>& edges=v->getEdges();
+		Vertex<A,B> *v=vh.v;
+		vector<Edge<A,B>*>& edges=v->getEdges();
 
 		for (unsigned int i = 0; i < edges.size(); ++i) {
 
 			unsigned int weight=cost(edges[i],v);
-			Vertex *v2=edges[i]->GetDest(v);
+			Vertex<A,B> *v2=edges[i]->GetDest(v);
 
 			if(v->getCost() + weight < v2->getCost()){
 
 				v2->setCost(v->getCost()+weight);
 				v2->setLastVertex(v);
 				vh.v=v2;
-				list<VertexHandler>::iterator itr =find(listVH.begin(),listVH.end(),vh);
+				typename list<VertexHandler<A,B> >::iterator itr = find(listVH.begin(),listVH.end(),vh);
 
 				if(itr == listVH.end()){
 					vh.v=v2;
@@ -76,7 +130,7 @@ list<Vertex*> Graph::findWay(Vertex *start,Vertex *finish, int(*cost)(Edge*, Ver
 	if(finish->getLastVertex()==NULL)
 		return res;
 
-	Vertex* vaux=finish;
+	Vertex<A,B>* vaux=finish;
 
 	while(vaux != NULL){
 		res.push_front(vaux);
