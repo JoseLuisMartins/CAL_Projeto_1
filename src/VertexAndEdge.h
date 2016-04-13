@@ -16,53 +16,52 @@ enum Transport {
 
 using namespace std;
 
+template<class A, class B>
 class Vertex;
 
+template<class A, class B>
 class Edge {
 
-	Vertex* p1;
-	Vertex* p2;
-	int price;
-	int distance;
-	int duration;
-
+	Vertex<A,B>* dest;
+	B weights;
 
 public:
-	Edge(Vertex* p1, Vertex* p2,int price, int distance, int duration);
+	Edge(Vertex<A,B>* dest,B weights);
 
-	Vertex* GetDest(Vertex* p);
+	Vertex<A,B>* GetDest();
 
-	int getPrice() const;
-	int getDistance() const;
-	int getDuration() const;
+	int getWeights() const;
 
-
-	virtual ~Edge();
 };
-class Vertex {
 
-	string name;
-	Transport type;
-	vector<Edge*> edges;
+template<class A, class B>
+class Vertex{
+
+	unsigned int id;
+
+	A info;
+
+	vector<Edge<A,B>> edges;
 	unsigned int cost=-1;
 	Vertex *lastVertex=NULL;
 
 public:
 
-	Vertex(string name,enum Transport type);
+	Vertex(A info, unsigned int id);
+	Vertex(A info);
 	int getCost();
 	void setCost(int newCost);
 	virtual ~Vertex();
 	void reset();
-	string getName() const;
-	Transport getType() const;
-	void addEdge(Edge* edge);
-	vector<Edge*>& getEdges();
+	void addEdge(Edge<A,B> edge);
+	A getInfo() const;
+	vector<Edge<A,B>> getEdges();
 	void setLastVertex(Vertex *v);
-	Vertex* getLastVertex();
+	Vertex<A,B>* getLastVertex();
 	void imprime();
 };
 
-inline bool operator==(const Vertex& v1, const Vertex& v2);
+template <class A, class B>
+inline bool operator==(const Vertex<A,B>& v1, const Vertex<A,B>& v2);
 
 #endif

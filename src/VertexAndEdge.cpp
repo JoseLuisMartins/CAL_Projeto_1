@@ -9,89 +9,88 @@
 
 using namespace std;
 
-
-Vertex::Vertex(string name,enum Transport type) {
-	this->name = name;
-	this->type = type;
-
+template<class A, class B>
+Vertex<A,B>::Vertex(A info, unsigned int id) {
+	this->info = info;
+	this->id = id;
 }
 
-Vertex::~Vertex() {
+template<class A, class B>
+Vertex<A,B>::Vertex(A info) {
+	this->info = info;
 }
 
-void Vertex::addEdge(Edge* edge){
+template<class A, class B>
+Vertex<A,B>::~Vertex() {
+}
+
+template<class A, class B>
+void Vertex<A,B>::addEdge(Edge<A,B> edge){
 	edges.push_back(edge);
 }
 
-string Vertex::getName() const{
-	return name;
-}
-Transport Vertex::getType() const{
-	return type;
+template<class A, class B>
+void Vertex<A,B>::imprime(){
+	cout << info;
 }
 
-void Vertex::imprime(){
-	cout << name << " : " << type << endl;
-}
-
-vector<Edge*>& Vertex::getEdges(){
+template<class A, class B>
+vector<Edge<A,B>> Vertex<A,B>::getEdges(){
 	return edges;
 }
 
-inline bool operator==(const Vertex& v1, const Vertex& v2){
-	return (v1.getName() == v2.getName() && v1.getType() == v2.getType());
+template<class A, class B>
+inline bool operator==(const Vertex<A,B>& v1, const Vertex<A,B>& v2){
+
+	return (v1.getInfo() == v2.getInfo()));
 
 }
 
 
-
-Edge::Edge(Vertex* p1, Vertex* p2,int price, int distance, int duration) {
-	this->p1 = p1;
-	this->p2 = p2;
-	this->price = price;
-	this->distance = distance;
-	this->duration = duration;
+template<class A, class B>
+Edge<A,B>::Edge(Vertex<A,B>* dest,B weights) {
+	this->dest = dest;
+	this->weights = weights;
 }
 
-int Edge::getPrice() const{
-	return price;
-}
-int Edge::getDistance() const{
-	return distance;
-}
-int Edge::getDuration() const{
-	return duration;
+template<class A, class B>
+int Edge<A,B>::getWeights() const{
+	return weights;
 }
 
-Vertex* Edge::GetDest(Vertex* p){
-	if(p1 != p )
-		return p1;
-	return p2;
+template<class A, class B>
+Vertex<A,B>* Edge<A,B>::GetDest(){
+	return dest;
 }
 
-Edge::~Edge() {
-}
-
-
-void Vertex::reset(){
+template<class A, class B>
+void Vertex<A,B>::reset(){
 	cost=-1;
 	lastVertex=NULL;
 }
 
-int Vertex::getCost(){
+template<class A, class B>
+int Vertex<A,B>::getCost(){
 	return cost;
 }
 
-void Vertex::setCost(int newCost){
+template<class A, class B>
+void Vertex<A,B>::setCost(int newCost){
 	cost=newCost;
 }
 
-void Vertex::setLastVertex(Vertex *v){
+template<class A, class B>
+void Vertex<A,B>::setLastVertex(Vertex<A,B> *v){
 	lastVertex=v;
 }
 
+template<class A, class B>
+A Vertex<A,B>::getInfo() const{
+	return info;
+}
 
-Vertex* Vertex::getLastVertex(){
+template<class A, class B>
+Vertex<A,B>* Vertex<A,B>::getLastVertex(){
 	return lastVertex;
 }
 
