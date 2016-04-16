@@ -58,7 +58,7 @@ int main(){
 	graph.massiveReset();
 	info = graph.findArt();
 	cout <<"PAssou\n";
-	for(int i = 0; i < info.size(); i++){
+	for(unsigned int i = 0; i < info.size(); i++){
 		cout << info[i]->getInfo().getID() << " | ";
 	}
 
