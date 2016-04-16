@@ -30,3 +30,8 @@ double Node::getLongitude() const{
 bool operator==(const Node& n1, const Node& n2){
 	return n1.getID() == n2.getID();
 }
+
+std::ostream & operator<<(std::ostream &o , const Node& n1){
+	o << n1.getID();
+	return o;
+}

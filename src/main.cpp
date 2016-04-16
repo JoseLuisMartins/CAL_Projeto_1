@@ -5,6 +5,7 @@
 #include <sstream>
 #include <fstream>
 #include <string>
+#include <map>
 
 #include "Way.h"
 #include "Transport.h"
@@ -16,27 +17,39 @@
 
 using namespace std;
 
+
 void MiniSlave(Node n1, Node n2,Way w, Graph<Node,Way>& g){
 	g.addEdge(n1,n2,w);
 	g.addEdge(n2,n1,w);
 }
 
+typedef struct WayInfo{
+	Way w;
+	bool bothWays;
+}WayInfo;
+
 
 Graph<Node, Way> loadTxt(){
+	map<int,Node> nodes;
+	map<int,WayInfo> ways;
+
 	stringstream ss;
 	string line;
 	ifstream file;
-	Graph<Node, Way> g = new Graph<Node,Way>();
+	Graph<Node, Way> g;
 	string lixo;
 
 	file.open("vertex_info.txt");
+	if(!file.good())
+		cout << "\nErro!!!\n";
 	while(getline(file,line)){
 		ss.clear();
 		ss.str(line);
 		int id;
 		double lat, lon;
 		ss >> id >> lixo >> lat >> lixo >> lon;
-		Node n = new Node(id,lat,lon);
+		Node n(id,lat,lon);
+		nodes[id] = n;
 		g.addVertex(n);
 	}
 	file.close();
@@ -47,16 +60,32 @@ Graph<Node, Way> loadTxt(){
 		ss.str(line);
 		int id;
 		string n;
-		bool isTwoWay;
+		bool isTwoWay = true;
 		Transport::Type t;
 		ss >> id >> lixo >> n;
 		if(n != ";"){
-			ss >> isTwoWay;
-			t = Transport::Type::SUBWAY;//Metro ou Comboio
+			string tmp;
+			ss >> tmp;
+			if(tmp == "False")
+				isTwoWay=false;
+
+			t = Transport::SUBWAY;//Metro ou Comboio
 		} else {
-			ss >> lixo >> isTwoWay;
-			t = Transport::Type::BUS;//Onibus
+			string tmp;
+			ss >> tmp;
+			if(tmp == "False")
+				isTwoWay=false;
+
+			t = Transport::BUS;//Onibus
 		}
+
+		Way w(id, "Bla", 20, 20, t);
+
+		WayInfo wI;
+		wI.bothWays=isTwoWay;
+		wI.w = w;
+
+		ways[id] = wI;
 
 	}
 	file.close();
@@ -68,12 +97,23 @@ Graph<Node, Way> loadTxt(){
 		int wayID, node1, node2;
 		ss >> wayID >> lixo >> node1 >> lixo >> node2;
 
+		WayInfo wI = ways.find(wayID)->second;
+		Way w = wI.w;
+		Node n1 = nodes.find(node1)->second;
+		Node n2 = nodes.find(node2)->second;
+
+		g.addEdge(n1,n2,w);
+		if(wI.bothWays){
+			g.addEdge(n2,n1,w);
+		}/**/
+
+
+
 	}
 	file.close();
-
 	return g;
 }
-
+/**/
 
 int main(){
 
@@ -115,8 +155,18 @@ int main(){
 	info = graph.findArt();
 	cout <<"PAssou\n";
 	for(unsigned int i = 0; i < info.size(); i++){
-		cout << info[i]->getInfo().getID() << " | ";
+		cout << info[i]->getInfo() << " | ";
 	}
+
+	graph = loadTxt();
+	cout <<"Calculando Cenas\n";
+	info = graph.findArt();
+	cout <<"PAssou\n";
+	graph.imprime();
+	for(unsigned int i = 0; i < info.size(); i++){
+		cout << info[i]->getInfo()<< " | ";
+	}
+
 
 
 	cout<< "\nMussalhau";

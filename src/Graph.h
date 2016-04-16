@@ -22,7 +22,7 @@ template <class A,class B>
 class Graph {
 
 	vector<Vertex<A,B>*> verts;
-	void findArt(Vertex<A,B>* v, vector<Vertex<A,B>*>& vect, int& counter);
+	void findArt(Vertex<A,B>* v, vector<Vertex<A,B>*>& vect, int& counter,Vertex<A,B>* root);
 
 public:
 	Graph(){}
@@ -45,6 +45,15 @@ public:
 
 	void imprime();
 };
+
+template<class A, class B>
+void Graph<A,B>::imprime(){
+	cout << "Info:" << verts.size() << endl;
+
+	for(int i =0 ; i <verts.size(); i++){
+		cout << verts[i]->info << " ";
+	}
+}
 
 template <class A, class B>
 bool Graph<A,B>::addVertex(A inf){
@@ -204,16 +213,18 @@ vector<Vertex<A,B> *> Graph<A,B>::findArt(){
 	vector<Vertex<A,B>* > res;
 	int counter = 0;
 
-	if(verts.size() == 0)
-		return res;
-
-	findArt(verts[0], res, counter);
+	for(int i =0 ; i < verts.size(); i++){
+		if(verts[i]->edges.size() > 1){
+			findArt(verts[i], res, counter, verts[i]);
+			break;
+		}
+	}
 
 	return res;
 }
 
 template<class A, class B>
-void Graph<A,B>::findArt(Vertex<A,B>* v, vector<Vertex<A,B>*>& vect, int& counter){
+void Graph<A,B>::findArt(Vertex<A,B>* v, vector<Vertex<A,B>*>& vect, int& counter, Vertex<A,B>* root){
 	v->visited = true;
 	v->low = v->num = ++counter;
 
@@ -221,10 +232,11 @@ void Graph<A,B>::findArt(Vertex<A,B>* v, vector<Vertex<A,B>*>& vect, int& counte
 		Vertex<A,B>* w = v->edges[i].getDest();
 		if(!w->visited){
 			w->setLastVertex(v);
-			findArt(w , vect, counter);
+			findArt(w , vect, counter, root);
 
 			if(w->low >= v->num){
-				vect.push_back(v);
+				if(v!=root)
+					vect.push_back(v);
 			}
 
 			v->low = min(v->low, w->low);

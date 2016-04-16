@@ -10,6 +10,8 @@
 
 #define Earth_Ratius 6371000
 
+#include <iostream>
+
 class Node {
 
 	int id;
@@ -27,5 +29,7 @@ public:
 };
 
 bool operator==(const Node& n1, const Node& n2);
+
+std::ostream & operator<<(std::ostream &o , const Node& n1);
 
 #endif /* INTERSECAO_H_ */
