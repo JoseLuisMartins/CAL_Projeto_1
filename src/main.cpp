@@ -12,7 +12,7 @@
 #include "Node.h"
 #include "Graph.h"
 #include "VertexAndEdge.h"
-
+#include "graphviewer.h"
 
 
 using namespace std;
@@ -28,58 +28,67 @@ typedef struct WayInfo{
 	bool bothWays;
 }WayInfo;
 
+vector<string> split(string str, char delimiter) {
+  vector<string> internal;
+  stringstream ss(str);
+  string tok;
+
+  while(getline(ss, tok, delimiter)) {
+    internal.push_back(tok);
+  }
+
+  return internal;
+}
 
 Graph<Node, Way> loadTxt(){
 	map<int,Node> nodes;
 	map<int,WayInfo> ways;
 
-	stringstream ss;
+	//config graph viewer
+	GraphViewer *gv = new GraphViewer(800,800, true);
+	gv->createWindow(800, 800);
+	gv->defineEdgeDashed(true);
+	gv->defineVertexColor("blue");
+	gv->defineEdgeColor("black");
+
+
+
 	string line;
 	ifstream file;
 	Graph<Node, Way> g;
-	string lixo;
+	char lixo;
 
 	file.open("vertex_info.txt");
 	if(!file.good())
 		cout << "\nErro!!!\n";
 	while(getline(file,line)){
-		ss.clear();
-		ss.str(line);
+		stringstream ss(line);
 		int id;
-		double lat, lon;
+		long lat, lon;
 		ss >> id >> lixo >> lat >> lixo >> lon;
 		Node n(id,lat,lon);
 		nodes[id] = n;
 		g.addVertex(n);
+		gv->addNode(id);
 	}
 	file.close();
 
 	file.open("edge_info.txt");
 	while(getline(file,line)){
-		ss.clear();
-		ss.str(line);
+		stringstream ss(line);
 		int id;
-		string n;
+		vector<string> res = split(line, ';');
+		string n = res[1];
 		bool isTwoWay = true;
 		Transport::Type t;
-		ss >> id >> lixo >> n;
-		if(n != ";"){
-			string tmp;
-			ss >> tmp;
-			if(tmp == "False")
-				isTwoWay=false;
+		stringstream(res[0]) >> id;
 
-			t = Transport::SUBWAY;//Metro ou Comboio
-		} else {
-			string tmp;
-			ss >> tmp;
-			if(tmp == "False")
-				isTwoWay=false;
+		if(res[2] == "False")
+			isTwoWay=false;
 
-			t = Transport::BUS;//Onibus
-		}
+		t = Transport::BUS;//Onibus
 
-		Way w(id, "Bla", 20, 20, t);
+		Way w(id, n, 20, 20, t);
 
 		WayInfo wI;
 		wI.bothWays=isTwoWay;
@@ -92,8 +101,8 @@ Graph<Node, Way> loadTxt(){
 
 	file.open("connection_info.txt");
 	while(getline(file,line)){
-		ss.clear();
-		ss.str(line);
+		stringstream ss(line);
+		cout << ss.str() << endl;
 		int wayID, node1, node2;
 		ss >> wayID >> lixo >> node1 >> lixo >> node2;
 
@@ -107,10 +116,13 @@ Graph<Node, Way> loadTxt(){
 			g.addEdge(n2,n1,w);
 		}/**/
 
-
+		gv->addEdge(wayID,node1,node2,!wI.bothWays);
+		gv->setEdgeLabel(wayID,w.getName());
 
 	}
 	file.close();
+	gv->rearrange();
+
 	return g;
 }
 /**/
@@ -164,7 +176,7 @@ int main(){
 	cout <<"PAssou\n";
 	graph.imprime();
 	for(unsigned int i = 0; i < info.size(); i++){
-		cout << info[i]->getInfo()<< " | ";
+		cout << "\n |" << info[i]->getInfo()<< " | ";
 	}
 
 
@@ -175,5 +187,4 @@ int main(){
 	getch();
 
 	return 0;
-
 }
