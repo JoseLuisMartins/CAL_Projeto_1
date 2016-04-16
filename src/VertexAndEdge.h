@@ -5,14 +5,6 @@
 #include <vector>
 #include <iostream>
 
-enum Transport {
-
-	NONE,
-	TRAIN,
-	BUS,
-	SUBWAY
-
-};
 
 using namespace std;
 
