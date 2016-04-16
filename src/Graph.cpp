@@ -110,7 +110,7 @@ list<Vertex<A,B>*> Graph<A,B>::findWay(Vertex<A,B> *start,Vertex<A,B> *finish, i
 		for (unsigned int i = 0; i < edges.size(); ++i) {
 
 			unsigned int weight=cost(edges[i],v);
-			Vertex<A,B> *v2=edges[i]->GetDest(v);
+			Vertex<A,B> *v2=edges[i]->getDest(v);
 
 			if(v->getCost() + weight < v2->getCost()){
 
@@ -140,7 +140,43 @@ list<Vertex<A,B>*> Graph<A,B>::findWay(Vertex<A,B> *start,Vertex<A,B> *finish, i
 
 	return res;
 
-
 }
+
+
+template <class A,class B>
+vector<Vertex<A,B> *> Graph<A,B>::bfs(Vertex<A,B> *v){
+	massiveReset();
+	vector<Vertex<A,B> *> res;
+
+	queue<Vertex<A,B> *> q;
+	q.push(v);
+	v->visited = true;
+	while (!q.empty()) {
+		Vertex<A,B> *v1 = q.front();
+		q.pop();
+		res.push_back(v1);
+		typename vector<Edge<A,B> >::iterator it=v1->edges.begin();
+		typename vector<Edge<A,B> >::iterator ite=v1->edges.end();
+		for (; it!=ite; it++) {
+			Vertex<A,B> *d = it->getDest();
+			if (!d->visited) {
+				d->visited=true;
+				q.push(d);
+			}
+		}
+	}
+	return res;
+}
+
+
+template <class A,class B>
+bool Graph<A,B>::isConex(){
+	for (int i = 0; i < verts.size(); ++i) {
+		if(bfs(verts[i]).size() != verts.size())
+			return false;
+	}
+	return true;
+}
+
 
 

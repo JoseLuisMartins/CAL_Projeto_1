@@ -64,7 +64,7 @@ int Edge<A,B>::getWeights() const{
 }
 
 template<class A, class B>
-Vertex<A,B>* Edge<A,B>::GetDest(){
+Vertex<A,B>* Edge<A,B>::getDest(){
 	return dest;
 }
 
@@ -72,6 +72,7 @@ template<class A, class B>
 void Vertex<A,B>::reset(){
 	cost=-1;
 	lastVertex=NULL;
+	visited=false;
 }
 
 template<class A, class B>

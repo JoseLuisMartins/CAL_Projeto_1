@@ -28,7 +28,7 @@ class Edge {
 public:
 	Edge(Vertex<A,B>* dest,B weights);
 
-	Vertex<A,B>* GetDest();
+	Vertex<A,B>* getDest();
 
 	int getWeights() const;
 
@@ -38,6 +38,7 @@ template<class A, class B>
 class Vertex{
 
 	unsigned int id;
+	bool visited;
 
 	A info;
 

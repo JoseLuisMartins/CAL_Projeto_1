@@ -14,7 +14,7 @@
 #include <list>
 #include <algorithm>
 #include <iterator>
-
+#include <queue>
 
 using namespace std;
 
@@ -30,7 +30,8 @@ public:
 	bool removeVertex(A inf);
 	bool addEdge(A source, A dest, B w);
 	bool removeEdge(A source,A dest);
-
+	vector<Vertex<A,B> *> bfs(Vertex<A,B> *v);
+	bool isConex();
 
 	list<Vertex<A,B>*>  findWay(Vertex<A,B> *start,Vertex<A,B> *finish, int(*cost)(Edge<A,B>*,  Vertex<A,B>* ));
 
