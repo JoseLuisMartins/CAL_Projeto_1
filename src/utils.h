@@ -21,7 +21,6 @@ struct VertexHandler{
 	Vertex<A,B> *v;
 };
 
-
 template<class A,class B>
 inline bool operator<(VertexHandler<A,B>& v1,VertexHandler<A,B>& v2){
 		return v1.v->getCost() < v2.v->getCost();

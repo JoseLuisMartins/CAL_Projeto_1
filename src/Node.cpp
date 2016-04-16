@@ -2,13 +2,13 @@
  * Intersecao.cpp
  *
  *  Created on: 16/04/2016
- *      Author: Joao
+ *      Author: Lol
  */
 
 #include "Node.h"
 
 
-Node::Node(int id, int latitude, int longitude) {
+Node::Node(int id, double latitude, double longitude) {
 	this->id = id;
 	this->lat = latitude;
 	this->longe = longitude;
@@ -19,11 +19,11 @@ int Node::getID() const{
 	return id;
 }
 
-int Node::getLatitude() const{
+double Node::getLatitude() const{
 	return lat;
 }
 
-int Node::getLongitude() const{
+double Node::getLongitude() const{
 	return longe;
 }
 

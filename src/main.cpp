@@ -1,10 +1,10 @@
-
-
-
 #include <iostream>
 #include <string>
 #include <conio.h>
 #include <vector>
+#include <sstream>
+#include <fstream>
+#include <string>
 
 #include "Way.h"
 #include "Transport.h"
@@ -12,12 +12,68 @@
 #include "Graph.h"
 #include "VertexAndEdge.h"
 
+
+
 using namespace std;
 
 void MiniSlave(Node n1, Node n2,Way w, Graph<Node,Way>& g){
 	g.addEdge(n1,n2,w);
 	g.addEdge(n2,n1,w);
 }
+
+
+Graph<Node, Way> loadTxt(){
+	stringstream ss;
+	string line;
+	ifstream file;
+	Graph<Node, Way> g = new Graph<Node,Way>();
+	string lixo;
+
+	file.open("vertex_info.txt");
+	while(getline(file,line)){
+		ss.clear();
+		ss.str(line);
+		int id;
+		double lat, lon;
+		ss >> id >> lixo >> lat >> lixo >> lon;
+		Node n = new Node(id,lat,lon);
+		g.addVertex(n);
+	}
+	file.close();
+
+	file.open("edge_info.txt");
+	while(getline(file,line)){
+		ss.clear();
+		ss.str(line);
+		int id;
+		string n;
+		bool isTwoWay;
+		Transport::Type t;
+		ss >> id >> lixo >> n;
+		if(n != ";"){
+			ss >> isTwoWay;
+			t = Transport::Type::SUBWAY;//Metro ou Comboio
+		} else {
+			ss >> lixo >> isTwoWay;
+			t = Transport::Type::BUS;//Onibus
+		}
+
+	}
+	file.close();
+
+	file.open("connection_info.txt");
+	while(getline(file,line)){
+		ss.clear();
+		ss.str(line);
+		int wayID, node1, node2;
+		ss >> wayID >> lixo >> node1 >> lixo >> node2;
+
+	}
+	file.close();
+
+	return g;
+}
+
 
 int main(){
 
