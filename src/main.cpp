@@ -45,7 +45,7 @@ Graph<Node, Way> loadTxt(){
 	map<int,WayInfo> ways;
 
 	//config graph viewer
-	GraphViewer *gv = new GraphViewer(800,800, true);
+	GraphViewer *gv = new GraphViewer(1000,1000, true);
 	gv->createWindow(800, 800);
 	gv->defineEdgeDashed(true);
 	gv->defineVertexColor("blue");
@@ -98,7 +98,7 @@ Graph<Node, Way> loadTxt(){
 
 	}
 	file.close();
-
+	int count = 0;
 	file.open("connection_info.txt");
 	while(getline(file,line)){
 		stringstream ss(line);
@@ -116,9 +116,9 @@ Graph<Node, Way> loadTxt(){
 			g.addEdge(n2,n1,w);
 		}/**/
 
-		gv->addEdge(wayID,node1,node2,!wI.bothWays);
-		gv->setEdgeLabel(wayID,w.getName());
-
+		gv->addEdge(count,node1,node2,!wI.bothWays);
+		gv->setEdgeLabel(count,w.getName());
+		count ++;
 	}
 	file.close();
 	gv->rearrange();
