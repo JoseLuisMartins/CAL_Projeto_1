@@ -14,9 +14,6 @@ Node::Node(int id, int latitude, int longitude) {
 	this->longe = longitude;
 }
 
-Node::~Node() {
-	// TODO Auto-generated destructor stub
-}
 
 int Node::getID() const{
 	return id;

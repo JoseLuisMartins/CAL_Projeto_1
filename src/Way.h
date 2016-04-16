@@ -24,6 +24,7 @@ class Way {
 
 
 public:
+	Way(){}
 	Way(int id, string name, unsigned int capacity, unsigned int distance , Transport::Type type);
 	virtual ~Way();
 

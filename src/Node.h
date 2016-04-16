@@ -17,9 +17,9 @@ class Node {
 	int longe;
 
 public:
-
+	Node(){}
 	Node(int id, int latitude, int longitude);
-	virtual ~Node();
+
 
 	int getID() const;
 	int getLatitude() const;
