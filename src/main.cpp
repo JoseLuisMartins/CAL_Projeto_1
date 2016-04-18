@@ -17,7 +17,6 @@
 
 using namespace std;
 
-
 void MiniSlave(Node n1, Node n2,Way w, Graph<Node,Way>& g){
 	g.addEdge(n1,n2,w);
 	g.addEdge(n2,n1,w);
@@ -27,6 +26,10 @@ typedef struct WayInfo{
 	Way w;
 	bool bothWays;
 }WayInfo;
+
+
+void welcomeMenu();
+void clearScreen();
 
 vector<string> split(string str, char delimiter) {
   vector<string> internal;
@@ -86,7 +89,7 @@ Graph<Node, Way> loadTxt(){
 		if(res[2] == "False")
 			isTwoWay=false;
 
-		t = Transport::BUS;//Onibus
+		t = Transport::BUS;
 
 		Way w(id, n, 20, 20, t);
 
@@ -129,7 +132,7 @@ Graph<Node, Way> loadTxt(){
 
 int main(){
 
-	cout<< "Batata\n";
+	welcomeMenu();
 
 	Way caminho(0,"Bla", 20, 10,Transport::BUS );
 	Graph<Node, Way> graph;
@@ -169,22 +172,31 @@ int main(){
 	for(unsigned int i = 0; i < info.size(); i++){
 		cout << info[i]->getInfo() << " | ";
 	}
-
+	cout << endl;
 	graph = loadTxt();
 	cout <<"Calculando Cenas\n";
 	info = graph.findArt();
+
+	clearScreen();
 	cout <<"PAssou\n";
 	graph.imprime();
 	for(unsigned int i = 0; i < info.size(); i++){
 		cout << "\n |" << info[i]->getInfo()<< " | ";
 	}
 
-
-
-	cout<< "\nMussalhau";
-
-
 	getch();
 
 	return 0;
+}
+
+//Menu
+
+void welcomeMenu(){
+
+	cout << "*********| CAL - TripPlanner |*********" << endl;
+
+}
+
+void clearScreen(){
+	system("cls");
 }
