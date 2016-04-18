@@ -48,11 +48,11 @@ Graph<Node, Way> loadTxt(){
 	map<int,WayInfo> ways;
 
 	//config graph viewer
-	GraphViewer *gv = new GraphViewer(1000,1000, true);
-	gv->createWindow(800, 800);
+	GraphViewer *gv = new GraphViewer(1000,1000, false);
+	gv->createWindow(1000, 1000);
 	gv->defineEdgeDashed(true);
 	gv->defineVertexColor("blue");
-	gv->defineEdgeColor("black");
+	gv->defineEdgeColor("batata");
 
 
 
@@ -72,7 +72,7 @@ Graph<Node, Way> loadTxt(){
 		Node n(id,lat,lon);
 		nodes[id] = n;
 		g.addVertex(n);
-		gv->addNode(id);
+		gv->addNode(id, lat, lon);
 	}
 	file.close();
 

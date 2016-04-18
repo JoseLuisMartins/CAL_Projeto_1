@@ -227,15 +227,19 @@ template<class A, class B>
 void Graph<A,B>::findArt(Vertex<A,B>* v, vector<Vertex<A,B>*>& vect, int& counter, Vertex<A,B>* root){
 	v->visited = true;
 	v->low = v->num = ++counter;
+	int t = 0;
 
 	for(int i = 0; i < v->edges.size(); i++){
 		Vertex<A,B>* w = v->edges[i].getDest();
 		if(!w->visited){
+			if(v == root){
+				t++;
+			}
 			w->setLastVertex(v);
 			findArt(w , vect, counter, root);
 
 			if(w->low >= v->num){
-				if(v!=root)
+				if(v!=root || t > 1)
 					vect.push_back(v);
 			}
 
