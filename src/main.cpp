@@ -17,6 +17,11 @@
 
 using namespace std;
 
+Graph<Node, Way> graph;
+Vertex<Node,Way>* inicio = NULL;
+Vertex<Node,Way>* fim = NULL;
+int (*funcao)(Edge<Node,Way>* e, Vertex<Node,Way>* v);
+
 void MiniSlave(Node n1, Node n2,Way w, Graph<Node,Way>& g){
 	w.setDistance(n1.calcDist(n2));
 	g.addEdge(n1,n2,w);
@@ -31,6 +36,11 @@ typedef struct WayInfo{
 
 void welcomeMenu();
 void clearScreen();
+void menuViajarBegin();
+void menuViajarEnd();
+void menuViajarModo();
+void menuDisplayViagem();
+void menuSelection();
 unsigned int calcDist(Node n);
 
 vector<string> split(string str, char delimiter) {
@@ -107,7 +117,7 @@ Graph<Node, Way> loadTxt(){
 	file.open("connection_info.txt");
 	while(getline(file,line)){
 		stringstream ss(line);
-		cout << ss.str() << endl;
+		//cout << ss.str() << endl;
 		int wayID, node1, node2;
 		ss >> wayID >> lixo >> node1 >> lixo >> node2;
 
@@ -137,94 +147,157 @@ Graph<Node, Way> loadTxt(){
 
 	return g;
 }
-/**/
 
-int main(){
-
+//Menu
+void menuSelection(){
 	welcomeMenu();
-
-	Way caminho(0,"Bla", Transport::BUS );
-	Graph<Node, Way> graph;
-
-	Node nA(0, 21 , 33);
-	Node nB(1, 22, 22);
-	Node nC(2, 21 , 33);
-	Node nD(3, 22, 22);
-	Node nE(4, 21 , 33);
-	Node nF(5, 22, 22);
-	Node nG(6, 21 , 33);
-
-	graph.addVertex(nA,0);
-	graph.addVertex(nB,1);
-	graph.addVertex(nC,2);
-	graph.addVertex(nD,3);
-	graph.addVertex(nE,4);
-	graph.addVertex(nF,5);
-	graph.addVertex(nG,6);
-
-	MiniSlave(nA,nB,caminho,graph);
-	MiniSlave(nA,nD,caminho,graph);
-
-	MiniSlave(nB,nC,caminho,graph);
-
-	MiniSlave(nC,nD,caminho,graph);
-	MiniSlave(nC,nG,caminho,graph);
-
-	MiniSlave(nD,nE,caminho,graph);
-	MiniSlave(nD,nF,caminho,graph);
-	MiniSlave(nE,nF,caminho,graph);
-
-	vector<Vertex<Node,Way>*> info;
-	graph.massiveReset();
-	info = graph.findArt();
-	cout <<"PAssou\n";
-	for(unsigned int i = 0; i < info.size(); i++){
-		cout << info[i]->getInfo() << " | ";
-	}
+	char userChoice;
 	cout << endl;
-	graph = loadTxt();
-	cout <<"Calculando Cenas\n";
-	info = graph.findArt();
+	cout << "Escolha uma opcao selecionando o numero que a antecede." << endl << endl;
+	cout << "1. Viajar;" << endl;
+	cout << "2. Avaliar Conectividade;" << endl;
+	cout << "3. Cenas de BiFeS;" << endl;
+	cout << "4. Sair." << endl;
+	cin >> userChoice;
 
-	clearScreen();
-	cout <<"PAssou\n";
-	graph.imprime();
-	for(unsigned int i = 0; i < info.size(); i++){
-		cout << "\n |" << info[i]->getInfo()<< " | ";
+	while(!(userChoice == '1' || userChoice == '2' || userChoice == '3' || userChoice == '4')){
+		cout << "Opcao errada, por favor tente novamente!" << endl;
+		cin >> userChoice;
 	}
-	clearScreen();
-	cout << "Vou procurar os vertices!" << endl;
-	Vertex<Node,Way>* inicio = graph.getVertex(22);
-	Vertex<Node,Way>* fim = graph.getVertex(43);
-	cout << "Encontrei os vertices!" << endl;
 
-	list<Vertex<Node,Way>*> path = graph.findWay(inicio,fim,distCost);
-	cout << "Encontrei o caminho!" << endl;
+	switch(userChoice){
+	case '1':
+		menuViajarBegin();
+		menuViajarEnd();
+		menuViajarModo();
+		menuDisplayViagem();
+		inicio = NULL;
+		fim = NULL;
+		break;
+	case '2':
+		//Chamar menu da  conectividade
+		break;
+	case '3':
+		//Chamar menu de bfs
+		break;
+	case '4':
+		return;
+		break;
+	}
+	menuSelection();
+}
+
+void menuDisplayViagem(){
+	welcomeMenu();
+	list<Vertex<Node,Way>*> path = graph.findWay(inicio,fim,funcao);
+	cout << "Ponto de Partida: ";
+	inicio->imprime();
+	cout << endl;
+	cout << "Ponto de Chegada: ";
+	fim->imprime();
+	cout << endl;
+
 	list<Vertex<Node,Way>*>::const_iterator it;
 	for(it = path.begin(); it != path.end(); it++){
 		(*it)->imprime();
 	}
-	cout << endl;
-	cout << "PASSEI!" << endl;
+	cout << endl << endl;
+	setcolor(12);
+	cout << "Prima qualquer tecla para voltar ao inicio.";
+	setcolor(15);
 	getch();
-
-	return 0;
+	return;
 }
 
-//Menu
+void menuViajarModo(){
+	welcomeMenu();
+	cout << "Ponto de Partida: ";
+	inicio->imprime();
+	cout << endl;
+	cout << "Ponto de Chegada: ";
+	fim->imprime();
+	cout << endl;
+	unsigned int userChoice;
+	cout << "1. Menor distancia" << endl;
+	cout << "2. Menor preco" << endl;
+	cout << "3. Menor duracao" << endl;
+	cout << "4. Menor numero de transbordos" << endl;
+	cin >> userChoice;
+	while(userChoice > 4 || userChoice < 1){
+		cout << "Opcao invalida! Volte a escolher: ";
+		cin >> userChoice;
+	}
+	switch(userChoice){
+	case 1:
+		funcao = distCost;
+		break;
+	case 2:
+		funcao = priceCost;
+		break;
+	case 3:
+		funcao = durationCost;
+		break;
+	case 4:
+		funcao = changeStationCost;
+		break;
+	}
+	return;
+}
+
+void menuViajarEnd(){
+	welcomeMenu();
+	cout << "Ponto de Partida: ";
+	inicio->imprime();
+	cout << endl;
+	unsigned int userChoice;
+	cout << "Escolha o seu ponto de destino:" << endl;
+	for(unsigned int i = 0; i < graph.verts.size() ; i++){
+		cout << i + 1 << ". " << graph.verts[i]->getID() << endl;
+	}
+	cin >> userChoice;
+	while(userChoice > graph.verts.size() || userChoice <= 0 || inicio == graph.verts[userChoice - 1]){
+		cout << "O ponto que escolheu nao existe ou e invalido." << endl;
+		cout << "Por favor volte a escolher:";
+		cin >> userChoice;
+	}
+	fim = graph.verts[userChoice - 1];
+	return;
+}
+
+void menuViajarBegin(){
+	welcomeMenu();
+	unsigned int userChoice;
+	cout << "Escolha o seu ponto de partida:" << endl;
+	for(unsigned int i = 0; i < graph.verts.size() ; i++){
+		cout << i + 1 << ". " << graph.verts[i]->getID() << endl;
+	}
+	cin >> userChoice;
+	while(userChoice > graph.verts.size() || userChoice <= 0){
+		cout << "O ponto que escolheu nao existe." << endl;
+		cout << "Por favor volte a escolher:";
+		cin >> userChoice;
+	}
+	inicio = graph.verts[userChoice - 1];
+	return;
+}
 
 
 void welcomeMenu(){
+	system("cls");
 	setcolor(9);
 	cout << " ___      _        ___  _                          " << endl;
 	cout << "|_ _|_ _ <_> ___  | . \\| | ___ ._ _ ._ _  ___  _ _ " << endl;
 	cout << " | || '_>| || . \\ |  _/| |<_> || ' || ' |/ ._>| '_>" << endl;
 	cout << " |_||_|  |_||  _/ |_|  |_|<___||_|_||_|_|\\___.|_|  " << endl;
-	cout << "            |_|                                    " << endl;
-
+	cout << "            |_|                                    " << endl << endl;
 	setcolor(15);
 }
+//!Menu
 
-void clearScreen(){
-	//system("cls");
+int main(){
+
+	graph = loadTxt();
+	menuSelection();
+
+	return 0;
 }

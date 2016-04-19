@@ -21,10 +21,12 @@ using namespace std;
 template <class A,class B>
 class Graph {
 
-	vector<Vertex<A,B>*> verts;
+
 	void findArt(Vertex<A,B>* v, vector<Vertex<A,B>*>& vect, int& counter,Vertex<A,B>* root);
 
 public:
+	vector<Vertex<A,B>*> verts;
+
 	Graph(){}
 
 	bool addVertex(A inf);
