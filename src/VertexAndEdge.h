@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include "Transport.h"
 
 using namespace std;
 
@@ -24,7 +25,7 @@ public:
 
 	Vertex<A,B>* getDest();
 
-	int getWeights() const;
+	B getWeights() const;
 
 };
 
@@ -65,6 +66,8 @@ public:
 	void imprime();
 	bool removeEdgeTo(Vertex<A,B> *dest);
 	void addEdge(Edge<A,B>* d,B w);
+	Transport::Type getType();
+
 };
 
 
@@ -118,7 +121,7 @@ Edge<A,B>::Edge(Vertex<A,B>* dest,B weights) {
 }
 
 template<class A, class B>
-int Edge<A,B>::getWeights() const{
+B Edge<A,B>::getWeights() const{
 	return weights;
 }
 
@@ -170,5 +173,16 @@ bool Vertex<A,B>::removeEdgeTo(Vertex<A,B> *dest){
 	return false;
 }
 
+template<class A, class B>
+Transport::Type Vertex<A,B>::getType(){
+	if(lastVertex == NULL){
+		return NULL;
+	}
+	for(unsigned int i = 0; i < lastVertex->edges.size(); i++){
+		if(lastVertex->edges[i].getDest() == this)
+			return lastVertex->edges[i].getWeights().getType();
+	}
+	return NULL;
+}
 
 #endif

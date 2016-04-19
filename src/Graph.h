@@ -36,8 +36,6 @@ public:
 
 	vector<Vertex<A,B> *> findArt();
 
-
-
 	list<Vertex<A,B>*>  findWay(Vertex<A,B> *start,Vertex<A,B> *finish, int(*cost)(Edge<A,B>*,  Vertex<A,B>* ));
 
 	void massiveReset();
@@ -116,14 +114,12 @@ bool Graph<A,B>::removeEdge(A source,A dest){
 	return vS->removeEdgeTo(vD);
 }
 
-
 template <class A,class B>
 void Graph<A,B>::massiveReset(){
 	for (unsigned int i = 0; i < verts.size(); ++i) {
 		verts[i]->reset();
 	}
 }
-
 
 template<class A,class B>
 list<Vertex<A,B>*> Graph<A,B>::findWay(Vertex<A,B> *start,Vertex<A,B> *finish, int(*cost)(Edge<A,B>*, Vertex<A,B>* )){
@@ -180,7 +176,6 @@ list<Vertex<A,B>*> Graph<A,B>::findWay(Vertex<A,B> *start,Vertex<A,B> *finish, i
 	return res;
 
 }
-
 
 template <class A,class B>
 vector<Vertex<A,B> *> Graph<A,B>::bfs(Vertex<A,B> *v){
@@ -255,7 +250,6 @@ void Graph<A,B>::findArt(Vertex<A,B>* v, vector<Vertex<A,B>*>& vect, int& counte
 	}
 
 }
-
 
 template <class A,class B>
 bool Graph<A,B>::isConex(){

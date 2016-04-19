@@ -35,6 +35,7 @@ public:
 	unsigned int getDistance() const;
 	double getTime() const;
 	double getPrice() const;
+	Transport::Type getType() const;
 };
 
 #endif /* WAY_H_ */

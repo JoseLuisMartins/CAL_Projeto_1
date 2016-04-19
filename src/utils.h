@@ -3,6 +3,8 @@
 
 
 #include "VertexAndEdge.h"
+#include "Node.h"
+#include "Way.h"
 
 template<class A,class B>
 int distCost(Edge<A,B> *e,Vertex<A,B> *v);

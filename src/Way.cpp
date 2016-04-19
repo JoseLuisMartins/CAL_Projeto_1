@@ -50,3 +50,7 @@ double Way::getTime() const{
 double Way::getPricePerMeter() const{
 	return Transport::PricePerMeter(type);
 }
+
+Transport::Type Way::getType() const{
+	return type;
+}
