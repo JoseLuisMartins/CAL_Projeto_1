@@ -19,6 +19,16 @@ int Node::getID() const{
 	return id;
 }
 
+double Node::calcDist(Node n){
+
+	double _x = n.getLatitude() - lat;
+	double _y = n.getLongitude() - longe;
+
+	return sqrt( _x*_x + _y*_y );
+
+}
+
+
 double Node::getLatitude() const{
 	return lat;
 }

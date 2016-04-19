@@ -18,6 +18,7 @@
 using namespace std;
 
 void MiniSlave(Node n1, Node n2,Way w, Graph<Node,Way>& g){
+	w.setDistance(n1.calcDist(n2));
 	g.addEdge(n1,n2,w);
 	g.addEdge(n2,n1,w);
 }
@@ -30,6 +31,7 @@ typedef struct WayInfo{
 
 void welcomeMenu();
 void clearScreen();
+unsigned int calcDist(Node n);
 
 vector<string> split(string str, char delimiter) {
   vector<string> internal;
@@ -50,10 +52,10 @@ Graph<Node, Way> loadTxt(){
 	//config graph viewer
 	GraphViewer *gv = new GraphViewer(1000,1000, false);
 	gv->createWindow(1000, 1000);
-	gv->defineEdgeDashed(true);
+	gv->defineEdgeDashed(false);
 	gv->defineVertexColor("blue");
-	gv->defineEdgeColor("batata");
-
+	gv->defineEdgeColor("red");
+	gv->defineEdgeCurved(false);
 
 
 	string line;
@@ -71,8 +73,8 @@ Graph<Node, Way> loadTxt(){
 		ss >> id >> lixo >> lat >> lixo >> lon;
 		Node n(id,lat,lon);
 		nodes[id] = n;
-		g.addVertex(n);
-		gv->addNode(id, lat, lon);
+		g.addVertex(n, id);
+		gv->addNode(id, lat*1.5, lon*1.5);
 	}
 	file.close();
 
@@ -91,7 +93,7 @@ Graph<Node, Way> loadTxt(){
 
 		t = Transport::BUS;
 
-		Way w(id, n, 20, 20, t);
+		Way w(id, n, t);//calcular distancia...
 
 		WayInfo wI;
 		wI.bothWays=isTwoWay;
@@ -114,13 +116,20 @@ Graph<Node, Way> loadTxt(){
 		Node n1 = nodes.find(node1)->second;
 		Node n2 = nodes.find(node2)->second;
 
+
+		w.setDistance(n1.calcDist(n2));
+
 		g.addEdge(n1,n2,w);
 		if(wI.bothWays){
 			g.addEdge(n2,n1,w);
 		}/**/
 
 		gv->addEdge(count,node1,node2,!wI.bothWays);
-		gv->setEdgeLabel(count,w.getName());
+		gv->setEdgeThickness(count,25);
+
+		stringstream s;
+		s << "dist-> " << w.getDistance() << " n: "<< w.getName() <<" p: " << w.getPrice() <<" id: " << w.getID();
+		gv->setEdgeLabel(count,s.str());
 		count ++;
 	}
 	file.close();
@@ -134,7 +143,7 @@ int main(){
 
 	welcomeMenu();
 
-	Way caminho(0,"Bla", 20, 10,Transport::BUS );
+	Way caminho(0,"Bla", Transport::BUS );
 	Graph<Node, Way> graph;
 
 	Node nA(0, 21 , 33);
@@ -145,13 +154,13 @@ int main(){
 	Node nF(5, 22, 22);
 	Node nG(6, 21 , 33);
 
-	graph.addVertex(nA);
-	graph.addVertex(nB);
-	graph.addVertex(nC);
-	graph.addVertex(nD);
-	graph.addVertex(nE);
-	graph.addVertex(nF);
-	graph.addVertex(nG);
+	graph.addVertex(nA,0);
+	graph.addVertex(nB,1);
+	graph.addVertex(nC,2);
+	graph.addVertex(nD,3);
+	graph.addVertex(nE,4);
+	graph.addVertex(nF,5);
+	graph.addVertex(nG,6);
 
 	MiniSlave(nA,nB,caminho,graph);
 	MiniSlave(nA,nD,caminho,graph);
@@ -212,5 +221,5 @@ void welcomeMenu(){
 }
 
 void clearScreen(){
-	system("cls");
+	//system("cls");
 }

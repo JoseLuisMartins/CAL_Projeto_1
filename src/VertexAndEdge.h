@@ -55,7 +55,7 @@ public:
 	Vertex(A info);
 	unsigned int getCost();
 
-	void setCost(int newCost);
+	void setCost(unsigned int newCost);
 	virtual ~Vertex();
 	void reset();
 	void addEdge(Edge<A,B> edge);
@@ -147,7 +147,7 @@ unsigned int Vertex<A,B>::getCost(){
 }
 
 template<class A, class B>
-void Vertex<A,B>::setCost(int newCost){
+void Vertex<A,B>::setCost(unsigned int newCost){
 	cost=newCost;
 }
 

@@ -164,14 +164,10 @@ list<Vertex<A,B>*> Graph<A,B>::findWay(Vertex<A,B> *start,Vertex<A,B> *finish, i
 		listVH.pop_front();
 		Vertex<A,B> *v=vh.v;
 		vector<Edge<A,B> > edges = v->getEdges();
-
 		for (unsigned int i = 0; i < edges.size(); ++i) {
-
-			unsigned int weight=cost(&edges[i],v);
+			unsigned int weight= cost(&edges[i],v);
 			Vertex<A,B> *v2 = edges[i].getDest();
-
 			if(v->getCost() + weight < v2->getCost()){
-
 				v2->setCost(v->getCost()+weight);
 				v2->setLastVertex(v);
 				vh.v=v2;

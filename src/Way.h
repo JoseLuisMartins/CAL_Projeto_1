@@ -18,21 +18,20 @@ class Way {
 
 	unsigned int id;
 	string name;
-	unsigned int capacity;
-	unsigned int distance;
+	double distance;
 	Transport::Type type;
 
 
 public:
 	Way(){}
-	Way(int id, string name, unsigned int capacity, unsigned int distance , Transport::Type type);
+	Way(int id, string name, Transport::Type type);
 	virtual ~Way();
 
 	unsigned int getID() const;
 	string getName() const;
-	unsigned int getCapacity() const;
 	double getPricePerMeter() const;
-	unsigned int getDistance() const;
+	double getDistance() const;
+	void setDistance(double dist);
 	double getTime() const;
 	double getPrice() const;
 	Transport::Type getType() const;

@@ -11,6 +11,7 @@
 #define Earth_Ratius 6371000
 
 #include <iostream>
+#include <cmath>
 
 class Node {
 
@@ -22,7 +23,7 @@ public:
 	Node(){}
 	Node(int id, double latitude, double longitude);
 
-
+	double calcDist(Node n);
 	int getID() const;
 	double getLatitude() const;
 	double getLongitude() const;

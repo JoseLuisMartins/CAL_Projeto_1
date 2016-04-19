@@ -10,11 +10,10 @@
 
 
 
-Way::Way(int id, string name, unsigned int capacity, unsigned int distance, Transport::Type type){
+Way::Way(int id, string name, Transport::Type type){
 
 	this->id = id;
 	this->name = name;
-	this->capacity = capacity;
 	this->type = type;
 	this->distance = distance;
 }
@@ -31,11 +30,9 @@ string Way::getName() const{
 	return name;
 }
 
-unsigned int Way::getCapacity() const{
-	return capacity;
-}
 
-unsigned int Way::getDistance() const{
+
+double Way::getDistance() const{
 	return distance;
 }
 
@@ -53,4 +50,9 @@ double Way::getPricePerMeter() const{
 
 Transport::Type Way::getType() const{
 	return type;
+}
+
+
+void Way::setDistance(double dist){
+	distance=dist;
 }
