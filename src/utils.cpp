@@ -1,27 +1,27 @@
 #include "utils.h"
 
 
-template<class A,class B>
-int distCost(Edge<A,B> *e,Vertex<A,B> *v){
+int distCost(Edge<Node,Way> *e,Vertex<Node,Way> *v){
 	return e->getWeights().getDistance();
 }
 
-template<class A,class B>
-int priceCost(Edge<A,B> *e,Vertex<A,B> *v){
+int priceCost(Edge<Node,Way> *e,Vertex<Node,Way> *v){
 	return e->getWeights().getPrice();
 }
 
-template<class A,class B>
-int durationCost(Edge<A,B> *e,Vertex<A,B> *v){
+int durationCost(Edge<Node,Way> *e,Vertex<Node,Way> *v){
 	return e->getWeights().getTime();
 }
 
-template<class A,class B>
-int changeStationCost(Edge<A,B> *e,Vertex<A,B> *v){
-	if(v->getType == NULL)
-		return 0;
+int changeStationCost(Edge<Node,Way> *e,Vertex<Node,Way> *v){
+	Vertex<Node,Way>* lastVertex = v->getLastVertex();
+	Transport::Type tipo;
+	for(unsigned int i = 0; i < lastVertex->getEdges().size(); i++){
+			if(lastVertex->getEdges()[i].getDest() == v)
+				tipo = lastVertex->getEdges()[i].getWeights().getType();
+		}
 
-	if(e->getWeights()->getType() == v->getType())
+	if(e->getWeights().getType() == tipo)
 		return 0;
 	else
 		return 1;

@@ -13,7 +13,7 @@
 #include "Graph.h"
 #include "VertexAndEdge.h"
 #include "graphviewer.h"
-
+#include "utils.h"
 
 using namespace std;
 
@@ -183,7 +183,20 @@ int main(){
 	for(unsigned int i = 0; i < info.size(); i++){
 		cout << "\n |" << info[i]->getInfo()<< " | ";
 	}
+	clearScreen();
+	cout << "Vou procurar os vertices!" << endl;
+	Vertex<Node,Way>* inicio = graph.getVertex(22);
+	Vertex<Node,Way>* fim = graph.getVertex(43);
+	cout << "Encontrei os vertices!" << endl;
 
+	list<Vertex<Node,Way>*> path = graph.findWay(inicio,fim,distCost);
+	cout << "Encontrei o caminho!" << endl;
+	list<Vertex<Node,Way>*>::const_iterator it;
+	for(it = path.begin(); it != path.end(); it++){
+		(*it)->imprime();
+	}
+	cout << endl;
+	cout << "PASSEI!" << endl;
 	getch();
 
 	return 0;

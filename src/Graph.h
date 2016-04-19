@@ -28,11 +28,14 @@ public:
 	Graph(){}
 
 	bool addVertex(A inf);
+	bool addVertex(A inf,unsigned int indice);
 	bool removeVertex(A inf);
 	bool addEdge(A source, A dest, B w);
 	bool removeEdge(A source,A dest);
 	vector<Vertex<A,B> *> bfs(Vertex<A,B> *v);
 	bool isConex();
+
+	Vertex<A,B>* getVertex(int indice);
 
 	vector<Vertex<A,B> *> findArt();
 
@@ -43,6 +46,26 @@ public:
 
 	void imprime();
 };
+
+template<class A, class B>
+bool Graph<A,B>::addVertex(A inf,unsigned int indice){
+	for(unsigned int i = 0; i < verts.size(); i++){
+		if(verts[i]->info == inf)
+			return false;
+	}
+	Vertex<A,B>* a = new Vertex<A,B>(inf,indice);
+	verts.push_back(a);
+	return true;
+}
+
+template<class A,class B>
+Vertex<A,B>* Graph<A,B>::getVertex(int indice){
+	for(unsigned int i = 0; i < verts.size(); i++){
+		if(verts[i]->getID() == indice)
+			return verts[i];
+	}
+	return NULL;
+}
 
 template<class A, class B>
 void Graph<A,B>::imprime(){
@@ -140,12 +163,12 @@ list<Vertex<A,B>*> Graph<A,B>::findWay(Vertex<A,B> *start,Vertex<A,B> *finish, i
 		vh= listVH.front();
 		listVH.pop_front();
 		Vertex<A,B> *v=vh.v;
-		vector<Edge<A,B>*>& edges=v->getEdges();
+		vector<Edge<A,B> > edges = v->getEdges();
 
 		for (unsigned int i = 0; i < edges.size(); ++i) {
 
-			unsigned int weight=cost(edges[i],v);
-			Vertex<A,B> *v2=edges[i]->getDest(v);
+			unsigned int weight=cost(&edges[i],v);
+			Vertex<A,B> *v2 = edges[i].getDest();
 
 			if(v->getCost() + weight < v2->getCost()){
 

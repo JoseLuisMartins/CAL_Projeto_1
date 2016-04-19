@@ -66,10 +66,14 @@ public:
 	void imprime();
 	bool removeEdgeTo(Vertex<A,B> *dest);
 	void addEdge(Edge<A,B>* d,B w);
-	Transport::Type getType();
+	unsigned int getID();
 
 };
 
+template<class A, class B>
+unsigned int Vertex<A,B>::getID(){
+	return id;
+}
 
 template<class A, class B>
 Vertex<A,B>::Vertex(A info, unsigned int id) {
@@ -98,7 +102,7 @@ void Vertex<A,B>::addEdge(Edge<A,B> edge){
 
 template<class A, class B>
 void Vertex<A,B>::imprime(){
-	cout << info;
+	cout << " | " << info << " | ";
 }
 
 template<class A, class B>
@@ -171,18 +175,6 @@ bool Vertex<A,B>::removeEdgeTo(Vertex<A,B> *dest){
 		}
 	}
 	return false;
-}
-
-template<class A, class B>
-Transport::Type Vertex<A,B>::getType(){
-	if(lastVertex == NULL){
-		return NULL;
-	}
-	for(unsigned int i = 0; i < lastVertex->edges.size(); i++){
-		if(lastVertex->edges[i].getDest() == this)
-			return lastVertex->edges[i].getWeights().getType();
-	}
-	return NULL;
 }
 
 #endif

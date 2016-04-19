@@ -6,17 +6,14 @@
 #include "Node.h"
 #include "Way.h"
 
-template<class A,class B>
-int distCost(Edge<A,B> *e,Vertex<A,B> *v);
 
-template<class A,class B>
-int priceCost(Edge<A,B> *e,Vertex<A,B> *v);
+int distCost(Edge<Node,Way> *e,Vertex<Node,Way> *v);
 
-template<class A,class B>
-int durationCost(Edge<A,B> *e,Vertex<A,B> *v);
+int priceCost(Edge<Node,Way> *e,Vertex<Node,Way> *v);
 
-template<class A,class B>
-int changeStationCost(Edge<A,B> *e,Vertex<A,B> *v);
+int durationCost(Edge<Node,Way> *e,Vertex<Node,Way> *v);
+
+int changeStationCost(Edge<Node,Way> *e,Vertex<Node,Way> *v);
 
 template<class A,class B>
 struct VertexHandler{
