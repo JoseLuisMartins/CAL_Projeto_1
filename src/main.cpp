@@ -204,6 +204,7 @@ int main(){
 
 //Menu
 
+
 void welcomeMenu(){
 
 	cout << "*********| CAL - TripPlanner |*********" << endl;
