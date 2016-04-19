@@ -215,9 +215,14 @@ int main(){
 
 
 void welcomeMenu(){
+	setcolor(9);
+	cout << " ___      _        ___  _                          " << endl;
+	cout << "|_ _|_ _ <_> ___  | . \\| | ___ ._ _ ._ _  ___  _ _ " << endl;
+	cout << " | || '_>| || . \\ |  _/| |<_> || ' || ' |/ ._>| '_>" << endl;
+	cout << " |_||_|  |_||  _/ |_|  |_|<___||_|_||_|_|\\___.|_|  " << endl;
+	cout << "            |_|                                    " << endl;
 
-	cout << "*********| CAL - TripPlanner |*********" << endl;
-
+	setcolor(15);
 }
 
 void clearScreen(){
