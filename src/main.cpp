@@ -251,16 +251,16 @@ void menuViajarEnd(){
 	cout << endl;
 	unsigned int userChoice;
 	cout << "Escolha o seu ponto de destino:" << endl;
-	for(unsigned int i = 0; i < graph.verts.size() ; i++){
-		cout << i + 1 << ". " << graph.verts[i]->getID() << endl;
+	for(unsigned int i = 0; i < graph.getVerts().size() ; i++){
+		cout << i + 1 << ". " << graph.getVerts()[i]->getID() << endl;
 	}
 	cin >> userChoice;
-	while(userChoice > graph.verts.size() || userChoice <= 0 || inicio == graph.verts[userChoice - 1]){
+	while(userChoice > graph.getVerts().size() || userChoice <= 0 || inicio == graph.getVerts()[userChoice - 1]){
 		cout << "O ponto que escolheu nao existe ou e invalido." << endl;
 		cout << "Por favor volte a escolher:";
 		cin >> userChoice;
 	}
-	fim = graph.verts[userChoice - 1];
+	fim = graph.getVerts()[userChoice - 1];
 	return;
 }
 
@@ -268,16 +268,16 @@ void menuViajarBegin(){
 	welcomeMenu();
 	unsigned int userChoice;
 	cout << "Escolha o seu ponto de partida:" << endl;
-	for(unsigned int i = 0; i < graph.verts.size() ; i++){
-		cout << i + 1 << ". " << graph.verts[i]->getID() << endl;
+	for(unsigned int i = 0; i < graph.getVerts().size() ; i++){
+		cout << i + 1 << ". " << graph.getVerts()[i]->getID() << endl;
 	}
 	cin >> userChoice;
-	while(userChoice > graph.verts.size() || userChoice <= 0){
+	while(userChoice > graph.getVerts().size() || userChoice <= 0){
 		cout << "O ponto que escolheu nao existe." << endl;
 		cout << "Por favor volte a escolher:";
 		cin >> userChoice;
 	}
-	inicio = graph.verts[userChoice - 1];
+	inicio = graph.getVerts()[userChoice - 1];
 	return;
 }
 
