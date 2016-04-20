@@ -36,6 +36,7 @@ typedef struct WayInfo{
 
 void welcomeMenu();
 void clearScreen();
+void menuConetividade();
 void menuViajarBegin();
 void menuViajarEnd();
 void menuViajarModo();
@@ -159,10 +160,12 @@ void menuSelection(){
 	cout << "3. Cenas de BiFeS;" << endl;
 	cout << "4. Sair." << endl;
 	cin >> userChoice;
+	//userChoice = getch();
 
 	while(!(userChoice == '1' || userChoice == '2' || userChoice == '3' || userChoice == '4')){
 		cout << "Opcao errada, por favor tente novamente!" << endl;
 		cin >> userChoice;
+		//userChoice = getch();
 	}
 
 	switch(userChoice){
@@ -175,7 +178,7 @@ void menuSelection(){
 		fim = NULL;
 		break;
 	case '2':
-		//Chamar menu da  conectividade
+		menuConetividade();
 		break;
 	case '3':
 		//Chamar menu de bfs
@@ -185,6 +188,23 @@ void menuSelection(){
 		break;
 	}
 	menuSelection();
+}
+
+void menuConetividade(){
+	welcomeMenu();
+	cout << "-> Conetividade da rede de transportes <-" << endl;
+	cout << "Lista de pontos de articulacao: " << endl;
+	setcolor(12);
+	cout << endl << endl << endl;
+	//calcular os pontos e imprimir
+	setcolor(15);
+	cout << "Estes sao pontos criticos da rede que, na eventualidade de um" << endl;
+	cout <<	"corte na via duas partes da rede ficarao inacessiveis entre si." << endl;
+	setcolor(12);
+	cout << "Prima qualquer tecla para voltar ao inicio.";
+	setcolor(15);
+	getch();
+	return;
 }
 
 void menuDisplayViagem(){
@@ -224,7 +244,9 @@ void menuViajarModo(){
 	cout << "4. Menor numero de transbordos" << endl;
 	cin >> userChoice;
 	while(userChoice > 4 || userChoice < 1){
+		setcolor(12);
 		cout << "Opcao invalida! Volte a escolher: ";
+		setcolor(15);
 		cin >> userChoice;
 	}
 	switch(userChoice){
@@ -256,7 +278,9 @@ void menuViajarEnd(){
 	}
 	cin >> userChoice;
 	while(userChoice > graph.getVerts().size() || userChoice <= 0 || inicio == graph.getVerts()[userChoice - 1]){
+		setcolor(12);
 		cout << "O ponto que escolheu nao existe ou e invalido." << endl;
+		setcolor(15);
 		cout << "Por favor volte a escolher:";
 		cin >> userChoice;
 	}
@@ -273,7 +297,9 @@ void menuViajarBegin(){
 	}
 	cin >> userChoice;
 	while(userChoice > graph.getVerts().size() || userChoice <= 0){
+		setcolor(12);
 		cout << "O ponto que escolheu nao existe." << endl;
+		setcolor(15);
 		cout << "Por favor volte a escolher:";
 		cin >> userChoice;
 	}
