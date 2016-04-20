@@ -22,6 +22,9 @@ Vertex<Node,Way>* inicio = NULL;
 Vertex<Node,Way>* fim = NULL;
 int (*funcao)(Edge<Node,Way>* e, Vertex<Node,Way>* v);
 
+GraphViewer *gv = new GraphViewer(1000,1000, false);
+
+
 void MiniSlave(Node n1, Node n2,Way w, Graph<Node,Way>& g){
 	w.setDistance(n1.calcDist(n2));
 	g.addEdge(n1,n2,w);
@@ -56,12 +59,13 @@ vector<string> split(string str, char delimiter) {
   return internal;
 }
 
+
+
 Graph<Node, Way> loadTxt(){
 	map<int,Node> nodes;
 	map<int,WayInfo> ways;
 
 	//config graph viewer
-	GraphViewer *gv = new GraphViewer(1000,1000, false);
 	gv->createWindow(1000, 1000);
 	gv->defineEdgeDashed(false);
 	gv->defineVertexColor("blue");
@@ -135,7 +139,7 @@ Graph<Node, Way> loadTxt(){
 			g.addEdge(n2,n1,w);
 		}/**/
 
-		gv->addEdge(count,node1,node2,!wI.bothWays);
+		gv->addEdge(w.getID(),node1,node2,!wI.bothWays);
 		gv->setEdgeThickness(count,25);
 
 		stringstream s;
@@ -218,9 +222,24 @@ void menuDisplayViagem(){
 	cout << endl;
 
 	list<Vertex<Node,Way>*>::const_iterator it;
+	Vertex<Node,Way>* temp = NULL;
+
 	for(it = path.begin(); it != path.end(); it++){
+
+		if(temp != NULL){
+			for(int i = 0; i < temp->getEdges().size() ; i ++){
+				if(temp->getEdges()[i].getDest() == (*it)){
+					gv->setEdgeColor(temp->getEdges()[i].getWeights().getID(), "black");
+					break;
+				}
+			}
+		}
+		temp = *it;
+
 		(*it)->imprime();
 	}
+	gv->rearrange();
+
 	cout << endl << endl;
 	setcolor(12);
 	cout << "Prima qualquer tecla para voltar ao inicio.";
