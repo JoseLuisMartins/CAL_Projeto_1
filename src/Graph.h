@@ -24,6 +24,8 @@ class Graph {
 	vector<Vertex<A,B>*> verts;
 	void findArt(Vertex<A,B>* v, vector<Vertex<A,B>*>& vect, int& counter,Vertex<A,B>* root);
 
+	void dfs(Vertex<A,B>* v, vector<Vertex<A,B> *>& res);
+
 public:
 
 
@@ -36,6 +38,8 @@ public:
 	bool addEdge(A source, A dest, B w);
 	bool removeEdge(A source,A dest);
 	vector<Vertex<A,B> *> bfs(Vertex<A,B> *v);
+	vector<Vertex<A,B> *> dfs();
+
 	bool isConex();
 
 	Vertex<A,B>* getVertex(int indice);
@@ -228,6 +232,32 @@ vector<Vertex<A,B> *> Graph<A,B>::bfs(Vertex<A,B> *v){
 	}
 	return res;
 }
+
+template<class A, class B>
+vector<Vertex<A,B> *> Graph<A,B>::dfs(){
+	typename vector<Vertex<A,B>*>::const_iterator it= verts.begin();
+		typename vector<Vertex<A,B>*>::const_iterator ite= verts.end();
+		for (; it !=ite; it++)
+			(*it)->visited=false;
+		vector<Vertex<A,B>* > res;
+		it=verts.begin();
+		for (; it !=ite; it++)
+		    if ( (*it)->visited==false )
+		    	dfs(*it,res);
+		return res;
+}
+
+template <class A, class B>
+void Graph<A,B>::dfs(Vertex<A,B> *v,vector< Vertex<A,B> *> &res){
+	v->visited = true;
+	res.push_back(v);
+	typename vector<Edge<A,B> >::iterator it= (v->edges).begin();
+	typename vector<Edge<A,B> >::iterator ite= (v->edges).end();
+	for (; it !=ite; it++)
+	    if ( it->dest->visited == false )
+	    	dfs(it->dest, res);
+}
+
 
 template<class A, class B>
 vector<Vertex<A,B> *> Graph<A,B>::findArt(){
