@@ -156,7 +156,7 @@ Graph<Node, Way> loadTxt(){
 //Menu
 void menuSelection(){
 	welcomeMenu();
-	char userChoice;
+	char userChoice = 0;
 	cout << endl;
 	cout << "Escolha uma opcao selecionando o numero que a antecede." << endl << endl;
 	cout << "1. Viajar;" << endl;
@@ -221,13 +221,13 @@ void menuDisplayViagem(){
 	fim->imprime();
 	cout << endl;
 
-	list<Vertex<Node,Way>*>::const_iterator it;
+	list<Vertex<Node,Way>*>::const_iterator it = path.begin();
 	Vertex<Node,Way>* temp = NULL;
 
 	for(it = path.begin(); it != path.end(); it++){
 
 		if(temp != NULL){
-			for(int i = 0; i < temp->getEdges().size() ; i ++){
+			for(unsigned int i = 0; i < temp->getEdges().size() ; i ++){
 				if(temp->getEdges()[i].getDest() == (*it)){
 					gv->setEdgeColor(temp->getEdges()[i].getWeights().getID(), "black");
 					break;
