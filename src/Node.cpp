@@ -43,5 +43,7 @@ bool operator==(const Node& n1, const Node& n2){
 
 std::ostream & operator<<(std::ostream &o , const Node& n1){
 	o << n1.getID();
+	if(n1.getID() < 10)
+		o << " ";
 	return o;
 }

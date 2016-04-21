@@ -254,8 +254,8 @@ void Graph<A,B>::dfs(Vertex<A,B> *v,vector< Vertex<A,B> *> &res){
 	typename vector<Edge<A,B> >::iterator it= (v->edges).begin();
 	typename vector<Edge<A,B> >::iterator ite= (v->edges).end();
 	for (; it !=ite; it++)
-	    if ( it->dest->visited == false )
-	    	dfs(it->dest, res);
+	    if ( it->getDest()->visited == false )
+	    	dfs(it->getDest(), res);
 }
 
 

@@ -38,8 +38,8 @@ typedef struct WayInfo{
 
 
 void welcomeMenu();
-void clearScreen();
 void menuConetividade();
+void menuDFS();
 void menuViajarBegin();
 void menuViajarEnd();
 void menuViajarModo();
@@ -158,10 +158,15 @@ void menuSelection(){
 	welcomeMenu();
 	char userChoice = 0;
 	cout << endl;
-	cout << "Escolha uma opcao selecionando o numero que a antecede." << endl << endl;
+	cout << "Escolha uma opcao selecionando o numero que a antecede." << endl;
+	if(!graph.isConex()){
+	setcolor(12);
+	cout << "ATENCAO! A rede nao se encontra 100% conectada!" << endl;
+	setcolor(15);
+	}
 	cout << "1. Viajar;" << endl;
 	cout << "2. Avaliar Conectividade;" << endl;
-	cout << "3. Cenas de BiFeS;" << endl;
+	cout << "3. Pesquisa em profundidade;" << endl;
 	cout << "4. Sair." << endl;
 	cin >> userChoice;
 	//userChoice = getch();
@@ -185,23 +190,44 @@ void menuSelection(){
 		menuConetividade();
 		break;
 	case '3':
-		//Chamar menu de bfs
+		menuDFS();
 		break;
 	case '4':
-		return;
+		return;//SAIR DA APLICACAO
 		break;
 	}
 	menuSelection();
+}
+
+void menuDFS(){
+	welcomeMenu();
+	cout << "-> A realizar Pesquisa em profundidade (DFS) <-" << endl;
+	vector<Vertex<Node,Way>*> vec = graph.dfs();
+	for(unsigned int i = 0; i < vec.size(); i++){
+		vec[i]->imprime();
+		cout << endl;
+	}
+	cout << "-> Pesquisa em profundidade concluida! <-" << endl;
+	setcolor(12);
+	cout << "Prima qualquer tecla para voltar ao inicio.";
+	setcolor(15);
+	getch();
+	return;
 }
 
 void menuConetividade(){
 	welcomeMenu();
 	cout << "-> Conetividade da rede de transportes <-" << endl;
 	cout << "Lista de pontos de articulacao: " << endl;
+
 	setcolor(12);
-	cout << endl << endl << endl;
-	//calcular os pontos e imprimir
+	vector<Vertex<Node,Way> *> vec = graph.findArt();
+	for(unsigned int i = 0; i < vec.size(); i++){
+		vec[i]->imprime();
+		cout << endl;
+	}
 	setcolor(15);
+
 	cout << "Estes sao pontos criticos da rede que, na eventualidade de um" << endl;
 	cout <<	"corte na via duas partes da rede ficarao inacessiveis entre si." << endl;
 	setcolor(12);
@@ -291,19 +317,20 @@ void menuViajarEnd(){
 	inicio->imprime();
 	cout << endl;
 	unsigned int userChoice;
+	vector<Vertex<Node,Way>*> destinos = graph.bfs(inicio);
 	cout << "Escolha o seu ponto de destino:" << endl;
-	for(unsigned int i = 0; i < graph.getVerts().size() ; i++){
-		cout << i + 1 << ". " << graph.getVerts()[i]->getID() << endl;
+	for(unsigned int i = 0; i < destinos.size() ; i++){
+		cout << i + 1 << ". " << destinos[i]->getID() << endl;
 	}
 	cin >> userChoice;
-	while(userChoice > graph.getVerts().size() || userChoice <= 0 || inicio == graph.getVerts()[userChoice - 1]){
+	while(userChoice > destinos.size() || userChoice <= 0 || inicio == destinos[userChoice - 1]){
 		setcolor(12);
 		cout << "O ponto que escolheu nao existe ou e invalido." << endl;
 		setcolor(15);
 		cout << "Por favor volte a escolher:";
 		cin >> userChoice;
 	}
-	fim = graph.getVerts()[userChoice - 1];
+	fim = destinos[userChoice - 1];
 	return;
 }
 
@@ -325,7 +352,6 @@ void menuViajarBegin(){
 	inicio = graph.getVerts()[userChoice - 1];
 	return;
 }
-
 
 void welcomeMenu(){
 	system("cls");
