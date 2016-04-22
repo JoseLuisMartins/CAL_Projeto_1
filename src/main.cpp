@@ -48,21 +48,36 @@ void menuSelection();
 unsigned int calcDist(Node n);
 
 vector<string> split(string str, char delimiter) {
-  vector<string> internal;
-  stringstream ss(str);
-  string tok;
+	vector<string> internal;
+	stringstream ss(str);
+	string tok;
 
-  while(getline(ss, tok, delimiter)) {
-    internal.push_back(tok);
-  }
+	while(getline(ss, tok, delimiter)) {
+		internal.push_back(tok);
+	}
 
-  return internal;
+	return internal;
 }
 
 void repaint(){
-	for (int i = 0; i < graph.getVerts().size(); ++i) {
-		for (int j = 0; j < graph.getVerts()[i]->getEdges().size(); ++j) {
-			gv->setEdgeColor(graph.getVerts()[i]->getEdges()[j].getWeights().getID(), "red");
+	for (unsigned int i = 0; i < graph.getVerts().size(); ++i) {
+		for (unsigned int j = 0; j < graph.getVerts()[i]->getEdges().size(); ++j) {
+			Transport::Type t= graph.getVerts()[i]->getEdges()[j].getWeights().getType();
+			string color ="orange";
+
+			switch (t) {
+			case Transport::TRAIN:
+				color="red";
+				break;
+			case Transport::SUBWAY:
+				color= "cyan";
+				break;
+			case Transport::BUS:
+				color = "green";
+				break;
+			}
+
+			gv->setEdgeColor(graph.getVerts()[i]->getEdges()[j].getWeights().getID(),color);graph.getVerts()[i]->getEdges()[j].getWeights().getName();
 		}
 	}
 }
@@ -107,12 +122,28 @@ Graph<Node, Way> loadTxt(){
 		string n = res[1];
 		bool isTwoWay = true;
 		Transport::Type t;
+
+		switch (n[0]) {
+		case 'T':
+			t=Transport::TRAIN;
+			break;
+		case 'S':
+			t=Transport::SUBWAY;
+			break;
+		case 'B':
+			t=Transport::BUS;
+			break;
+		default:
+			t=Transport::NONE;
+			break;
+		}
+
 		stringstream(res[0]) >> id;
 
 		if(res[2] == "False")
 			isTwoWay=false;
 
-		t = Transport::BUS;
+
 
 		Way w(id, n, t);//calcular distancia...
 
@@ -128,7 +159,6 @@ Graph<Node, Way> loadTxt(){
 	file.open("connection_info.txt");
 	while(getline(file,line)){
 		stringstream ss(line);
-		//cout << ss.str() << endl;
 		int wayID, node1, node2;
 		ss >> wayID >> lixo >> node1 >> lixo >> node2;
 
@@ -143,7 +173,7 @@ Graph<Node, Way> loadTxt(){
 		g.addEdge(n1,n2,w);
 		if(wI.bothWays){
 			g.addEdge(n2,n1,w);
-		}/**/
+		}
 
 		gv->addEdge(w.getID(),node1,node2,!wI.bothWays);
 		gv->setEdgeThickness(w.getID(),25);
@@ -166,9 +196,9 @@ void menuSelection(){
 	cout << endl;
 	cout << "Escolha uma opcao selecionando o numero que a antecede." << endl;
 	if(!graph.isConex()){
-	setcolor(12);
-	cout << "ATENCAO! A rede nao se encontra 100% conectada!" << endl;
-	setcolor(15);
+		setcolor(12);
+		cout << "ATENCAO! A rede nao se encontra 100% conectada!" << endl;
+		setcolor(15);
 	}
 	cout << "1. Viajar;" << endl;
 	cout << "2. Avaliar Conectividade;" << endl;
@@ -263,7 +293,7 @@ void menuDisplayViagem(){
 		if(temp != NULL){
 			for(unsigned int i = 0; i < temp->getEdges().size() ; i ++){
 				if(temp->getEdges()[i].getDest() == (*it)){
-					gv->setEdgeColor(temp->getEdges()[i].getWeights().getID(), "black");
+					gv->setEdgeColor(temp->getEdges()[i].getWeights().getID(), "white");
 					break;
 				}
 			}
@@ -376,6 +406,7 @@ void welcomeMenu(){
 int main(){
 
 	graph = loadTxt();
+	repaint();
 	menuSelection();
 
 	return 0;

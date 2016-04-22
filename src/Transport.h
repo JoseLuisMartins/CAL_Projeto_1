@@ -12,11 +12,13 @@
 #define TRAIN_COST 0.5
 #define BUS_COST 0.5
 #define SUBWAY_COST 0.5
+#define WALKING_COST 0
+
 
 #define TRAIN_VELO 12
 #define BUS_VELO 12
 #define SUBWAY_VELO 12
-
+#define WALKING_VELO 3
 
 class Transport {
 
@@ -28,7 +30,8 @@ public:
 		NONE,
 		TRAIN,
 		BUS,
-		SUBWAY
+		SUBWAY,
+		WALKING
 	}Type;
 
 	static double PricePerMeter(Type type);

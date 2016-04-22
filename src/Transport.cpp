@@ -31,6 +31,9 @@ double Transport::VelocityPerMeter(Type type){
 	case SUBWAY:
 		return SUBWAY_VELO;
 		break;
+	case WALKING:
+		return WALKING_VELO;
+		break;
 	default:
 		return 0;
 	}
@@ -50,6 +53,9 @@ double Transport::PricePerMeter(Type type){
 
 	case SUBWAY:
 		return SUBWAY_COST;
+		break;
+	case WALKING:
+		return WALKING_COST;
 		break;
 	default:
 		return 0;
