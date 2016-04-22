@@ -15,6 +15,8 @@
 #include <algorithm>
 #include <iterator>
 #include <queue>
+#include <vector>
+
 
 using namespace std;
 
@@ -162,32 +164,38 @@ list<Vertex<A,B>*> Graph<A,B>::findWay(Vertex<A,B> *start,Vertex<A,B> *finish, i
 
 	list<Vertex<A,B>*> res;
 
-	list<VertexHandler<A,B> > listVH;
+	vector<VertexHandler<A,B> > listVH;
 	VertexHandler<A,B> vh;
 	vh.v=start;
-	listVH.push_front(vh);
+	//listVH.push_front(vh);
+	listVH.push_back(vh);
 	start->setCost(0);
 
 	while(!listVH.empty()){
 
-		listVH.sort();
 
 		vh= listVH.front();
-		listVH.pop_front();
+		listVH.erase(listVH.begin());
+		//listVH.pop_front();
 		Vertex<A,B> *v=vh.v;
 		vector<Edge<A,B> > edges = v->getEdges();
 		for (unsigned int i = 0; i < edges.size(); ++i) {
 			unsigned int weight= cost(&edges[i],v);
 			Vertex<A,B> *v2 = edges[i].getDest();
+
 			if(v->getCost() + weight < v2->getCost()){
 				v2->setCost(v->getCost()+weight);
 				v2->setLastVertex(v);
 				vh.v=v2;
-				typename list<VertexHandler<A,B> >::iterator itr = find(listVH.begin(),listVH.end(),vh);
 
+				typename vector<VertexHandler<A,B> >::iterator itr = find(listVH.begin(),listVH.end(),vh);
 				if(itr == listVH.end()){
 					vh.v=v2;
 					listVH.push_back(vh);
+					make_heap(listVH.begin(), listVH.end());
+				}else{
+					make_heap(listVH.begin(), itr);
+
 				}
 			}
 		}

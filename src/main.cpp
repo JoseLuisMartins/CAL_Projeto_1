@@ -6,6 +6,7 @@
 #include <fstream>
 #include <string>
 #include <map>
+#include <iomanip>
 
 #include "Way.h"
 #include "Transport.h"
@@ -14,6 +15,7 @@
 #include "VertexAndEdge.h"
 #include "graphviewer.h"
 #include "utils.h"
+
 
 using namespace std;
 
@@ -134,7 +136,7 @@ Graph<Node, Way> loadTxt(){
 			t=Transport::BUS;
 			break;
 		default:
-			t=Transport::NONE;
+			t=Transport::WALKING;
 			break;
 		}
 
@@ -179,7 +181,7 @@ Graph<Node, Way> loadTxt(){
 		gv->setEdgeThickness(w.getID(),25);
 
 		stringstream s;
-		s << "dist-> " << w.getDistance() << " n: "<< w.getName() <<" p: " << w.getPrice() <<" id: " << w.getID();
+		s << w.getID() << "|" << w.getName() <<" | " << w.getDistance() << " m |" << w.getPrice() << " €|" << setprecision(2) << w.getTime() << " s" ;
 		gv->setEdgeLabel(w.getID(),s.str());
 	}
 	file.close();
@@ -288,12 +290,31 @@ void menuDisplayViagem(){
 	list<Vertex<Node,Way>*>::const_iterator it = path.begin();
 	Vertex<Node,Way>* temp = NULL;
 
+	double preco = 0;
+	double tempo = 0;
+	unsigned int distancia = 0;
+	unsigned int numeroTransbordos =0;
+	Transport::Type ultimoTipo = Transport::NONE;
 	for(it = path.begin(); it != path.end(); it++){
 
 		if(temp != NULL){
 			for(unsigned int i = 0; i < temp->getEdges().size() ; i ++){
 				if(temp->getEdges()[i].getDest() == (*it)){
+
 					gv->setEdgeColor(temp->getEdges()[i].getWeights().getID(), "white");
+					distancia += temp->getEdges()[i].getWeights().getDistance();
+					preco += temp->getEdges()[i].getWeights().getPrice();
+					tempo += temp->getEdges()[i].getWeights().getTime();
+
+					Transport::Type tipoAtual = temp->getEdges()[i].getWeights().getType();
+
+					if(ultimoTipo != Transport::NONE && ultimoTipo != Transport::WALKING && tipoAtual != Transport::WALKING)
+						if(ultimoTipo != tipoAtual)
+							numeroTransbordos++;
+
+					if(tipoAtual!= Transport::WALKING)
+						ultimoTipo = tipoAtual;
+
 					break;
 				}
 			}
@@ -304,6 +325,10 @@ void menuDisplayViagem(){
 	}
 	gv->rearrange();
 
+	cout << "\nDistancia total: " << distancia << " m\n";
+	cout << "Custo: " << preco << " €\n";
+	cout << "Duracao: " << tempo << " s\n";
+	cout << "Transbordos: " << numeroTransbordos << "\n";
 	cout << endl << endl;
 	setcolor(12);
 	cout << "Prima qualquer tecla para voltar ao inicio.";
