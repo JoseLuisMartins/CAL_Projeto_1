@@ -59,7 +59,13 @@ vector<string> split(string str, char delimiter) {
   return internal;
 }
 
-
+void repaint(){
+	for (int i = 0; i < graph.getVerts().size(); ++i) {
+		for (int j = 0; j < graph.getVerts()[i]->getEdges().size(); ++j) {
+			gv->setEdgeColor(graph.getVerts()[i]->getEdges()[j].getWeights().getID(), "red");
+		}
+	}
+}
 
 Graph<Node, Way> loadTxt(){
 	map<int,Node> nodes;
@@ -152,6 +158,7 @@ Graph<Node, Way> loadTxt(){
 	return g;
 }
 
+
 //Menu
 void menuSelection(){
 	welcomeMenu();
@@ -195,6 +202,8 @@ void menuSelection(){
 		return;//SAIR DA APLICACAO
 		break;
 	}
+	repaint();
+	gv->rearrange();
 	menuSelection();
 }
 
