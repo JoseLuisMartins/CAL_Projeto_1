@@ -118,7 +118,7 @@ Graph<Node, Way> loadTxt(){
 
 	}
 	file.close();
-	int count = 0;
+
 	file.open("connection_info.txt");
 	while(getline(file,line)){
 		stringstream ss(line);
@@ -140,12 +140,11 @@ Graph<Node, Way> loadTxt(){
 		}/**/
 
 		gv->addEdge(w.getID(),node1,node2,!wI.bothWays);
-		gv->setEdgeThickness(count,25);
+		gv->setEdgeThickness(w.getID(),25);
 
 		stringstream s;
 		s << "dist-> " << w.getDistance() << " n: "<< w.getName() <<" p: " << w.getPrice() <<" id: " << w.getID();
-		gv->setEdgeLabel(count,s.str());
-		count ++;
+		gv->setEdgeLabel(w.getID(),s.str());
 	}
 	file.close();
 	gv->rearrange();
