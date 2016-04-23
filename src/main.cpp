@@ -262,7 +262,16 @@ void menuDFS(){
 
 void menuConetividade(){
 	welcomeMenu();
-	cout << "-> Conetividade da rede de transportes <-" << endl;
+	cout << "-> Conetividade da rede de transportes <-" << endl << endl;
+	if(graph.isConex()){
+		setcolor(10);
+		cout << "A rede de transportesnao encontra-se 100% conectada!" << endl;
+		setcolor(15);
+	}else{
+		setcolor(12);
+		cout << "A rede de transportes nao se encontra 100% conectada!" << endl;
+		setcolor(15);
+	}
 	setcolor(11);
 	cout << "Lista de pontos de articulacao: " << endl;
 
@@ -274,8 +283,13 @@ void menuConetividade(){
 	}
 	setcolor(15);
 
+	if(vec.size()==0){
+	cout << "Como esta rede de transportes não possui pontos de articulação podemos" << endl;
+	cout << "considera-la biconexa." << endl;
+	}else{
 	cout << "Estes sao pontos criticos da rede que, na eventualidade de um" << endl;
-	cout <<	"corte na via duas partes da rede ficarao inacessiveis entre si." << endl;
+	cout <<	"corte tornara algumas partes da rede de transportes inacessiveis." << endl;
+	}
 	setcolor(12);
 	cout << "Prima qualquer tecla para voltar ao inicio.";
 	setcolor(15);
