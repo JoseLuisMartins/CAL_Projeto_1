@@ -9,16 +9,16 @@
 #define TRANSPORT_H_
 
 //TWEAKS
-#define TRAIN_COST 0.5
-#define BUS_COST 0.5
-#define SUBWAY_COST 0.5
+#define TRAIN_COST 0.02
+#define BUS_COST 0.03
+#define SUBWAY_COST 0.01
 #define WALKING_COST 0
 
 
-#define TRAIN_VELO 12
-#define BUS_VELO 12
-#define SUBWAY_VELO 12
-#define WALKING_VELO 3
+#define TRAIN_VELO 3
+#define BUS_VELO 1
+#define SUBWAY_VELO 2
+#define WALKING_VELO 0.5
 
 class Transport {
 

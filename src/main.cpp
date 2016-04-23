@@ -181,7 +181,7 @@ Graph<Node, Way> loadTxt(){
 		gv->setEdgeThickness(w.getID(),25);
 
 		stringstream s;
-		s << w.getID() << "|" << w.getName() <<" | " << w.getDistance() << " m |" << w.getPrice() << " €|" << setprecision(2) << w.getTime() << " s" ;
+		s << w.getID() << "|" << w.getName() <<" | " << w.getDistance() << " m |" << w.getPrice() << " €|" << w.getTime() << " s" ;
 		gv->setEdgeLabel(w.getID(),s.str());
 	}
 	file.close();
@@ -284,11 +284,11 @@ void menuConetividade(){
 	setcolor(15);
 
 	if(vec.size()==0){
-	cout << "Como esta rede de transportes não possui pontos de articulação podemos" << endl;
-	cout << "considera-la biconexa." << endl;
+		cout << "Como esta rede de transportes não possui pontos de articulação podemos" << endl;
+		cout << "considera-la biconexa." << endl;
 	}else{
-	cout << "Estes sao pontos criticos da rede que, na eventualidade de um" << endl;
-	cout <<	"corte tornara algumas partes da rede de transportes inacessiveis." << endl;
+		cout << "Estes sao pontos criticos da rede que, na eventualidade de um" << endl;
+		cout <<	"corte tornara algumas partes da rede de transportes inacessiveis." << endl;
 	}
 	setcolor(12);
 	cout << "Prima qualquer tecla para voltar ao inicio.";
@@ -488,8 +488,13 @@ void welcomeMenu(){
 	cout << "		Walking" << endl;
 	cout << "                                                    ";
 	setcolor(15);
-	cout << "		Shortest Path" << endl << endl;
-
+	cout << "		Shortest Path" << endl;
+	cout << "          	                                         ";
+	setcolor(9,15);
+	cout <<"Etiqueta da aresta:" << endl;
+	setcolor(15,0);
+	cout << "                                                    ";
+	cout << "Id|Tipo Transporte|Distancia|Preco|Duracao" << endl << endl;
 }
 //!Menu
 
