@@ -358,7 +358,7 @@ void menuDisplayViagem(){
 	setcolor(3);
 	cout << "Custo: " ;
 	setcolor(15);
-	cout << preco << char(36) << endl;
+	cout << preco << " " << char(36) << endl;
 	setcolor(3);
 	cout << "Duracao: ";
 	setcolor(15);
@@ -469,7 +469,7 @@ void welcomeMenu(){
 	setcolor(9);
 	cout << " ___      _        ___  _                          	";
 	setcolor(9,15);
-	cout <<"Legenda:" << endl;
+	cout <<"Legenda GraphViewer:" << endl;
 	setcolor(9,0);
 	cout << "|_ _|_ _ <_> ___  | . \\| | ___ ._ _ ._ _  ___  _ _ ";
 	setcolor(12);
