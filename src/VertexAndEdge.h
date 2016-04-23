@@ -34,7 +34,7 @@ class Vertex{
 
 	unsigned int id;
 	bool visited;
-
+	bool insideQueue;
 	//conectivity things
 	int num;
 	int low;
@@ -67,7 +67,8 @@ public:
 	bool removeEdgeTo(Vertex<A,B> *dest);
 	void addEdge(Edge<A,B>* d,B w);
 	unsigned int getID();
-
+	bool isInsideQueue() const;
+	void setInsideQueue(bool newValue);
 };
 
 template<class A, class B>
@@ -139,7 +140,20 @@ void Vertex<A,B>::reset(){
 	cost=-1;
 	lastVertex=NULL;
 	visited=false;
+	insideQueue=false;
 }
+
+template<class A, class B>
+bool Vertex<A,B>::isInsideQueue() const{
+	return insideQueue;
+}
+
+template<class A, class B>
+void Vertex<A,B>::setInsideQueue(bool newValue){
+	insideQueue = newValue;
+}
+
+
 
 template<class A, class B>
 unsigned int Vertex<A,B>::getCost(){

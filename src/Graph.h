@@ -177,6 +177,8 @@ list<Vertex<A,B>*> Graph<A,B>::findWay(Vertex<A,B> *start,Vertex<A,B> *finish, i
 		vh= listVH.front();
 		listVH.erase(listVH.begin());
 		//listVH.pop_front();
+		vh.v->setInsideQueue(false);
+
 		Vertex<A,B> *v=vh.v;
 		vector<Edge<A,B> > edges = v->getEdges();
 		for (unsigned int i = 0; i < edges.size(); ++i) {
@@ -188,15 +190,20 @@ list<Vertex<A,B>*> Graph<A,B>::findWay(Vertex<A,B> *start,Vertex<A,B> *finish, i
 				v2->setLastVertex(v);
 				vh.v=v2;
 
-				typename vector<VertexHandler<A,B> >::iterator itr = find(listVH.begin(),listVH.end(),vh);
+				typename vector<VertexHandler<A,B> >::iterator itr = listVH.end();
+
+				if(v2->isInsideQueue())
+					itr = find(listVH.begin(),listVH.end(),vh);
+
 				if(itr == listVH.end()){
-					vh.v=v2;
+
 					listVH.push_back(vh);
-					make_heap(listVH.begin(), listVH.end());
-				}else{
+					v2->setInsideQueue(true);
+					push_heap(listVH.begin(), listVH.end());
+
+				}else
 					make_heap(listVH.begin(), itr);
 
-				}
 			}
 		}
 	}
