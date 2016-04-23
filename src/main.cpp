@@ -65,7 +65,7 @@ void repaint(){
 	for (unsigned int i = 0; i < graph.getVerts().size(); ++i) {
 		for (unsigned int j = 0; j < graph.getVerts()[i]->getEdges().size(); ++j) {
 			Transport::Type t= graph.getVerts()[i]->getEdges()[j].getWeights().getType();
-			string color ="orange";
+			string color ="yellow";
 
 			switch (t) {
 			case Transport::TRAIN:
@@ -467,12 +467,29 @@ void menuViajarBegin(){
 void welcomeMenu(){
 	system("cls");
 	setcolor(9);
-	cout << " ___      _        ___  _                          " << endl;
-	cout << "|_ _|_ _ <_> ___  | . \\| | ___ ._ _ ._ _  ___  _ _ " << endl;
-	cout << " | || '_>| || . \\ |  _/| |<_> || ' || ' |/ ._>| '_>" << endl;
-	cout << " |_||_|  |_||  _/ |_|  |_|<___||_|_||_|_|\\___.|_|  " << endl;
-	cout << "            |_|                                    " << endl << endl;
+	cout << " ___      _        ___  _                          	";
+	setcolor(9,15);
+	cout <<"Legenda:" << endl;
+	setcolor(9,0);
+	cout << "|_ _|_ _ <_> ___  | . \\| | ___ ._ _ ._ _  ___  _ _ ";
+	setcolor(12);
+	cout << "		Train"<< endl;
+	setcolor(9);
+	cout << " | || '_>| || . \\ |  _/| |<_> || ' || ' |/ ._>| '_>";
+	setcolor(11);
+	cout << "		Subway"<< endl;
+	setcolor(9);
+	cout << " |_||_|  |_||  _/ |_|  |_|<___||_|_||_|_|\\___.|_|  ";
+	setcolor(10);
+	cout << "		Bus" << endl;
+	setcolor(9);
+	cout << "            |_|                                    ";
+	setcolor(14);
+	cout << "		Walking" << endl;
+	cout << "                                                    ";
 	setcolor(15);
+	cout << "		Shortest Path" << endl << endl;
+
 }
 //!Menu
 
