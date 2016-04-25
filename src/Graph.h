@@ -21,38 +21,114 @@
 using namespace std;
 
 template <class A,class B>
-class Graph {
 
+/**
+ * Classe responsável pela representacao do grafo
+ */
+class Graph {
+	/**
+	 * vector que armazena os vertices contidos no grafo
+	 */
 	vector<Vertex<A,B>*> verts;
+
 	void findArt(Vertex<A,B>* v, vector<Vertex<A,B>*>& vect, int& counter,Vertex<A,B>* root);
 
 	void dfs(Vertex<A,B>* v, vector<Vertex<A,B> *>& res);
 
 public:
 
-
+	/**
+	 * construtor default do grafo
+	 */
 	Graph(){}
 
+	/**
+	 \return  devolve um vetor com todos os vertices do grafo
+	 */
 	vector<Vertex<A,B>*> getVerts();
+	/**
+	 * Adiciona um vertice ao grafo
+	 \param inf informação do vertice adicionado
+	 \return  devolve um booleano indicando o sucesso da operação
+	 */
 	bool addVertex(A inf);
+	/**
+	* Adiciona um vertice ao grafo
+	\param inf informação do vertice adicionado
+	\param indice do vertice
+	\return  devolve um booleano indicando o sucesso da operação
+	*/
 	bool addVertex(A inf,unsigned int indice);
+	/**
+	* Remove um vertice do grafo
+	\param inf informação do vertice adicionado
+	\param indice do vertice
+	\return  devolve um booleano indicando o sucesso da operação
+	*/
 	bool removeVertex(A inf);
+	/**
+	* Adiciona uma aresta ao grafo
+	\param source informacao do vertice de onde parte a aresta
+	\param dest informacao do vertice onde termina a aresta
+	\param w informacao da aresta que vai ser adicionada ao grafo
+	\return  devolve um booleano indicando o sucesso da operação
+	*/
 	bool addEdge(A source, A dest, B w);
+	/**
+	* Remove uma aresta ao grafo
+	\param source informacao do vertice de onde parte a aresta
+	\param dest informacao do vertice onde termina a aresta
+	\return  devolve um booleano indicando o sucesso da operação
+	*/
 	bool removeEdge(A source,A dest);
+
+	/**
+	* Algoritmo de pesquisa em largura (Breadth first search)
+	\param v Vertice onde inicia a pesquisa
+	\return  devolve um vetor com os vertices do grafo que foram encontrados na pesquisa
+	*/
 	vector<Vertex<A,B> *> bfs(Vertex<A,B> *v);
+	/**
+	* Algoritmo de pesquisa em profundidade (Depth first search)
+	\return  devolve um vetor com os vertices do grafo que foram encontrados na pesquisa
+	*/
 	vector<Vertex<A,B> *> dfs();
-
+	/**
+	* Metodo responsavel por avaliar a conectividade do grafo
+	\return  devolve um boolean indicando a conectividade(true) ou a não conectividade(false) do grafo
+	*/
 	bool isConex();
-
+	/**
+	\param indice indice do vertice que se pretende obter
+	\return  devolve um vertice com o indice passado por argumento ou NULL se não existir nenhum vertice com esse indice
+	*/
 	Vertex<A,B>* getVertex(int indice);
-
+	/**
+	*Metodo que procura os pontos de articulacao do grafo
+	\return devolve um vetor com os vertices que são pontos de articulacao do grafo
+	*/
 	vector<Vertex<A,B> *> findArt();
-
+	/**
+	*Consiste na implementacao do algoritmo de Djisktra para encontrar o caminho mais curto
+	\param start ponto de partida
+	\param finish ponto de chegada
+	\param cost apontador para funcao que permite determinar o custo de cada movimentacao
+	\return retorna uma lista de vertices que representa o caminho mais curto entre o vertice start e o vertice finish
+	*/
 	list<Vertex<A,B>*>  findWay(Vertex<A,B> *start,Vertex<A,B> *finish, int(*cost)(Edge<A,B>*,  Vertex<A,B>* ));
-
+	/**
+	 *Metodo responsavel por fazer reset a todos os vertices
+	 */
 	void massiveReset();
+
+	/**
+	 * destrutor do grafo
+	 */
 	virtual ~Graph(){}
 
+	/**
+	 * imprime todos os vertices do grafo
+	 */
 	void imprime();
 };
 
@@ -167,7 +243,6 @@ list<Vertex<A,B>*> Graph<A,B>::findWay(Vertex<A,B> *start,Vertex<A,B> *finish, i
 	vector<VertexHandler<A,B> > listVH;
 	VertexHandler<A,B> vh;
 	vh.v=start;
-	//listVH.push_front(vh);
 	listVH.push_back(vh);
 	start->setCost(0);
 
@@ -176,7 +251,6 @@ list<Vertex<A,B>*> Graph<A,B>::findWay(Vertex<A,B> *start,Vertex<A,B> *finish, i
 
 		vh= listVH.front();
 		listVH.erase(listVH.begin());
-		//listVH.pop_front();
 		vh.v->setInsideQueue(false);
 
 		Vertex<A,B> *v=vh.v;
