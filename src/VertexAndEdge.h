@@ -14,6 +14,12 @@ class Graph;
 template<class A, class B>
 class Vertex;
 
+	/**
+	 * Classe Edge
+	*
+	*	Classe que contém todas as informações relativas a uma Edge
+	*/
+
 template<class A, class B>
 class Edge {
 
@@ -21,14 +27,33 @@ class Edge {
 	B weights;
 
 public:
+
+	/**
+	 * Construtor Edge()
+	*	\param dest Vertex de destino
+	*	\param weights Peso associado
+	*/
 	Edge(Vertex<A,B>* dest,B weights);
 
+	/**
+	* getDest()
+	* \return devolve o Vertex de destino
+	*/
 	Vertex<A,B>* getDest();
 
+	/**
+	 * getWeights()
+	*	\return devolve o Peso associado
+	*/
 	B getWeights() const;
 
 };
 
+	/**
+	 * Classe Vertex
+	*
+	*	Classe que contém todas as informacoes relativas a um Vertex
+	*/
 template<class A, class B>
 class Vertex{
 
@@ -51,23 +76,86 @@ public:
 
 	friend class Graph<A,B>;
 
+	/**
+	 * Construtor Vertex()
+	*	\param info informacao associada ao Vertex
+	*	\param id id do vertice atual
+	*/
 	Vertex(A info, unsigned int id);
+	/**
+	 * Construtor Vertex()
+	*	\param info informacao associada ao Vertex
+	*/
 	Vertex(A info);
+	/**
+	* getCost()
+	*	\return custo acumulado
+	*/
 	unsigned int getCost();
-
+	/**
+	*  setCost()
+	*	\param newCost novo custo a defenir
+	*/
 	void setCost(unsigned int newCost);
 	virtual ~Vertex();
+	/**
+	*  reset()
+	*	Coloca os membros-dado com valor por defeito
+	*/
 	void reset();
+	/**
+	*  addEdge()
+	*	\param edge Edge a ser adicionada ao Vertex
+	*/
 	void addEdge(Edge<A,B> edge);
+	/**
+	*  getInfo()
+	*	\return informacao associada ao Vertex
+	*/
+
 	A getInfo();
+	/**
+	*  getEdges()
+	*	\return Edges associadas ao Vertex
+	*/
 	vector<Edge<A,B> > getEdges();
+	/**
+	 * setLastVertex()
+	 * \param v novo vertice a ser defenido
+	 */
 	void setLastVertex(Vertex<A,B> *v);
+	/**
+	* getLastVertex()
+	* \return ultimo Vertex
+	 */
 	Vertex<A,B>* getLastVertex();
+	/**
+	 * imprime()
+	 *
+	 */
 	void imprime();
+	/**
+	 * removeEdgeTo()
+	 * \param dest Vertex de Destino ao qual o Vertex atual esta conectado
+	 * \return true se removido com sucesso, falso caso contrario
+	 */
 	bool removeEdgeTo(Vertex<A,B> *dest);
-	void addEdge(Edge<A,B>* d,B w);
+
+	/**
+	* getID()
+	* \return id do Vertex
+	*/
 	unsigned int getID();
+	/**
+	* isInsideQueue()
+	* \return true se esta dento da lista
+	*/
 	bool isInsideQueue() const;
+	/**
+	* setInsideQueue()
+	* \param newValue novo valor a ser atualizado
+	*/
+
 	void setInsideQueue(bool newValue);
 };
 
