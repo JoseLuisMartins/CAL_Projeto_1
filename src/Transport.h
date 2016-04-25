@@ -34,9 +34,23 @@ public:
 		WALKING
 	}Type;
 
+	/**
+	 \param type tipo de transporte
+	 \return devolve o preço por metro do transporte passado como argumento
+	 */
 	static double PricePerMeter(Type type);
+	/**
+	\param type tipo de transporte
+	\return devolve a velocidade por metro do transporte passado como argumento
+	*/
 	static double VelocityPerMeter(Type type);
+	/**
+	 * construtor default
+	 */
 	Transport();
+	/**
+	 * destrutor
+	 */
 	virtual ~Transport();
 
 

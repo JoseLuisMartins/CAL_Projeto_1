@@ -27,12 +27,6 @@ int (*funcao)(Edge<Node,Way>* e, Vertex<Node,Way>* v);
 GraphViewer *gv = new GraphViewer(1000,1000, false);
 
 
-void MiniSlave(Node n1, Node n2,Way w, Graph<Node,Way>& g){
-	w.setDistance(n1.calcDist(n2));
-	g.addEdge(n1,n2,w);
-	g.addEdge(n2,n1,w);
-}
-
 typedef struct WayInfo{
 	Way w;
 	bool bothWays;
@@ -47,7 +41,12 @@ void menuViajarEnd();
 void menuViajarModo();
 void menuDisplayViagem();
 void menuSelection();
-unsigned int calcDist(Node n);
+
+void MiniSlave(Node n1, Node n2,Way w, Graph<Node,Way>& g){
+	w.setDistance(n1.calcDist(n2));
+	g.addEdge(n1,n2,w);
+	g.addEdge(n2,n1,w);
+}
 
 vector<string> split(string str, char delimiter) {
 	vector<string> internal;
