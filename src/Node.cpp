@@ -1,9 +1,3 @@
-/*
- * Intersecao.cpp
- *
- *  Created on: 16/04/2016
- *      Author: Lol
- */
 
 #include "Node.h"
 
