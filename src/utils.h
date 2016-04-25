@@ -24,12 +24,24 @@
 #define YELLOW 14
 #define WHITE 15
 
+/**
+ * Funcao que calcula o custo relativo da distancia
+ */
 int distCost(Edge<Node,Way> *e,Vertex<Node,Way> *v);
 
+/**
+ * Funcao que calcula o custo relativo do preço
+ */
 int priceCost(Edge<Node,Way> *e,Vertex<Node,Way> *v);
 
+/**
+ * Funcao que calcula o custo relativo da duracao
+ */
 int durationCost(Edge<Node,Way> *e,Vertex<Node,Way> *v);
 
+/**
+ * Funcao que calcula o custo relativo da mudança de transporte
+ */
 int changeStationCost(Edge<Node,Way> *e,Vertex<Node,Way> *v);
 
 template<class A,class B>
@@ -47,7 +59,9 @@ inline bool operator==(const VertexHandler<A,B>& v1,const VertexHandler<A,B>& v2
 		return (v1.v == v2.v);
 }
 
-
+/**
+ * Funcao para alterar a cor da letra na consola
+ */
 void setcolor(unsigned int color);
 
 void setcolor(unsigned int color, unsigned int background_color);
