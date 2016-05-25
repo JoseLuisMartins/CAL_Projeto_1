@@ -25,7 +25,14 @@ Vertex<Node,Way>* fim = NULL;
 int (*funcao)(Edge<Node,Way>* e, Vertex<Node,Way>* v);
 
 GraphViewer *gv = new GraphViewer(1000,1000, false);
+vector<string> linhas;
 
+void AdicionaDiferente(vector<string> &s, string v){
+	for(unsigned i = 0; i < s.size(); i++){
+		if(s[i] == v)return;
+	}
+	s.push_back(v);
+}
 
 typedef struct WayInfo{
 	Way w;
@@ -41,10 +48,8 @@ void menuViajarEnd();
 void menuViajarModo();
 void menuDisplayViagem();
 void menuSelection();
-/*PARTE 2*/
-void menuPesquisaPorNome();
-void menuProcurarParagem();
-
+void menuPesquisaParagem();
+Vertex<Node,Way>* menuPimpao(string msg);
 
 void MiniSlave(Node n1, Node n2,Way w, Graph<Node,Way>& g){
 	w.setDistance(n1.calcDist(n2));
@@ -132,6 +137,7 @@ Graph<Node, Way> loadTxt(){
 		vector<string> res = split(line, ';');
 		string n = res[1];
 		string linha = res[3];
+		AdicionaDiferente(linhas,linha);
 		bool isTwoWay = true;
 		Transport::Type t;
 
@@ -217,11 +223,12 @@ void menuSelection(){
 	cout << "1. Viajar;" << endl;
 	cout << "2. Avaliar Conectividade;" << endl;
 	cout << "3. Pesquisa em profundidade;" << endl;
-	cout << "4. Sair." << endl;
+	cout << "4. Pesquisa paragem em linha;" << endl;
+	cout << "5. Sair." << endl;
 	cin >> userChoice;
 	//userChoice = getch();
 
-	while(!(userChoice == '1' || userChoice == '2' || userChoice == '3' || userChoice == '4')){
+	while(!(userChoice == '1' || userChoice == '2' || userChoice == '3' || userChoice == '4' || userChoice == '5' )){
 		cout << "Opcao errada, por favor tente novamente!" << endl;
 		cin >> userChoice;
 		//userChoice = getch();
@@ -243,6 +250,9 @@ void menuSelection(){
 		menuDFS();
 		break;
 	case '4':
+		menuPesquisaParagem();
+		break;
+	case '5':
 		return;//SAIR DA APLICACAO
 		break;
 	}
@@ -250,6 +260,47 @@ void menuSelection(){
 	gv->rearrange();
 	menuSelection();
 }
+
+void menuPesquisaParagem(){
+	welcomeMenu();
+	setcolor(11);
+	cout << "-> Em que linha pretende procurar a paragem ? <-" << endl;
+	setcolor(15);
+
+	int option=-1;
+
+	while(option < 1 || option > linhas.size()){
+		for(unsigned int i = 0; i < linhas.size() ; i++){
+			cout << (i+1) << ".  " << linhas[i] << endl;
+		}
+
+		cin >> option;
+	}
+
+	welcomeMenu();
+	setcolor(11);
+	cout << "-> Qual e a paragem ? <-" << endl;
+	setcolor(15);
+
+
+	Vertex<Node,Way>* temp = menuPimpao("Escolha paragem");
+
+
+	welcomeMenu();
+	setcolor(11);
+
+	for(unsigned int i = 0; i < temp->getEdges().size(); i++){
+		if(temp->getEdges()[i].getWeights().getLinha() == linhas[option-1]){
+			cout << "Sim, a paragem [" << temp->getInfo().getParagem() <<"] pertence a linha: " << linhas[option-1] << endl;
+			getch();
+			return;
+		}
+	}
+
+	cout << "Nao, a paragem [" << temp->getInfo().getParagem() <<"] nao pertence a linha: " << linhas[option-1] << endl;
+	getch();
+}
+
 
 void menuDFS(){
 	welcomeMenu();
@@ -429,30 +480,16 @@ void menuViajarModo(){
 void menuViajarEnd(){
 	welcomeMenu();
 	setcolor(3);
-	cout << "Ponto de Partida: ";
+	cout << "Ponto de Destino: ";
 	setcolor(15);
 	inicio->imprime();
 	cout << endl;
-	unsigned int userChoice;
-	vector<Vertex<Node,Way>*> destinos = graph.bfs(inicio);
-	setcolor(11);
-	cout << "Escolha o seu ponto de destino:" << endl;
-	setcolor(15);
-	for(unsigned int i = 0; i < destinos.size() ; i++){
-		cout << i + 1 << ". " << destinos[i]->getID() << endl;
-	}
-	cin >> userChoice;
-	while(userChoice > destinos.size() || userChoice <= 0 || inicio == destinos[userChoice - 1]){
-		setcolor(12);
-		cout << "O ponto que escolheu nao existe ou e invalido." << endl;
-		setcolor(15);
-		cout << "Por favor volte a escolher:";
-		cin >> userChoice;
-	}
-	fim = destinos[userChoice - 1];
+
+	fim =  menuPimpao("Escolha o Vertice de Destino:");
+
+
 	return;
 }
-
 
 
 
@@ -463,9 +500,17 @@ void menuViajarBegin(){
 	cout << "Escolha o seu ponto de partida:" << endl;
 	setcolor(15);
 
-	/*for(unsigned int i = 0; i < graph.getVerts().size() ; i++){
-		cout << i + 1 << ". " << graph.getVerts()[i]->getID() << endl;
-	}/**/
+
+	inicio = menuPimpao("Escolha o Vertice de partida:");
+
+
+	return;
+}
+
+Vertex<Node,Way>* menuPimpao(string msg){
+
+	string userChoice;
+
 
 	cin >> userChoice;
 	vector<Vertex<Node,Way>*> res;
@@ -476,42 +521,32 @@ void menuViajarBegin(){
 		res = graph.findStationAprox(userChoice);
 		while(option <= 0 || option > res.size()){
 			welcomeMenu();
-			cout << "Escolha o seu ponto de partida:" << endl;
-			for (int i = 1; i <= res.size(); ++i) {
+			cout << "Sera que quis dizer:" << endl;
+			for (unsigned int i = 1; i <= res.size(); ++i) {
 				cout << i << ".  " << res[i-1]->getInfo().getParagem() << endl;
 			}
 			cin >> option;
 		}
 
+		return res[option - 1];
 	}else if(res.size()==1)
-		inicio=res[0];
+		return res[0];
 	else{
 
 		while(option <= 0 || option > res.size()){
 			welcomeMenu();
-			cout << "Escolha o seu ponto de partida:" << endl;
-			for (int i = 1; i <= res.size(); ++i) {
+			cout << msg << endl;
+			for (unsigned int i = 1; i <= res.size(); ++i) {
 				cout << i << ".  " << res[i-1]->getInfo().getParagem() << endl;
 			}
 			cin >> option;
 		}
 
-		inicio= res[option - 1];
+		return res[option - 1];
 	}
 
-	/*
-	while(userChoice > graph.getVerts().size() || userChoice <= 0){
-		setcolor(12);
-		cout << "O ponto que escolheu nao existe." << endl;
-		setcolor(15);
-		cout << "Por favor volte a escolher:";
-		cin >> userChoice;
-	}*/
-	//inicio = graph.getVerts()[userChoice - 1];
-
-	return;
+	return NULL;
 }
-
 void welcomeMenu(){
 	system("cls");
 	setcolor(9);

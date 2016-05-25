@@ -440,14 +440,25 @@ vector<Edge<A,B>*> Graph<A,B>::getWays(){
 	return res;
 }
 
+string& stringToLower(string &s){
+	for (unsigned int i = 0; i < s.size(); ++i) {
+		s[i]=tolower(s[i]);
+	}
+
+	return s;
+}
+
 /*Pesquisa Exata | Knuth-Morris-Pratt*/
 template <class A, class B>
 vector<Vertex<A,B>*> Graph<A,B>::findStationExat(string toSearch){
 
 	vector<Vertex<A,B>*> res;
 
+	stringToLower(toSearch);
+
 	for(unsigned int i = 0; i < verts.size(); i++){
-		if(findByNameExat(verts[i]->getInfo().getParagem(),toSearch)){
+		string s=verts[i]->getInfo().getParagem();
+		if(findByNameExat(stringToLower(s),toSearch)){
 			res.push_back(verts[i]);
 		}
 	}
@@ -462,11 +473,16 @@ vector<Vertex<A,B>*> Graph<A,B>::findStationAprox(string toSearch) {
 	if(verts.size() == 0)
 		return res;
 
+
+	string s =verts[0]->getInfo().getParagem();
+	stringToLower(toSearch);
+
 	int tmp;
-	int min = findByNameAprox(verts[0]->getInfo().getParagem(),toSearch);
+	int min = findByNameAprox(stringToLower(s),toSearch);
 	res.push_back(verts[0]);
 	for(unsigned int i = 0; i < verts.size(); i++){
-		tmp = findByNameAprox(verts[i]->getInfo().getParagem(),toSearch);
+		s=verts[i]->getInfo().getParagem();
+		tmp = findByNameAprox(stringToLower(s),toSearch);
 		if(tmp < min){
 			min = tmp;
 			res.erase(res.begin(),res.end());
