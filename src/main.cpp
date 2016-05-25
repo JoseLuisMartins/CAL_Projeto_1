@@ -112,13 +112,18 @@ Graph<Node, Way> loadTxt(){
 		int id;
 		long lat, lon;
 		string paragem;
-		ss >> id >> lixo >> lat >> lixo >> lon >> lixo >> paragem;
+		ss >> id >> lixo >> lat >> lixo >> lon >> lixo;
+		cout << "Tamanho:" << split(line,';').size() << " ";
+		paragem = split(line,';')[3];
+		cout << paragem << endl;
 		Node n(id,lat,lon,paragem);
 		nodes[id] = n;
 		g.addVertex(n, id);
 		gv->addNode(id, lat*1.5, lon*1.5);
+
 	}
 	file.close();
+
 
 	file.open("edge_info.txt");
 	while(getline(file,line)){
@@ -448,24 +453,62 @@ void menuViajarEnd(){
 	return;
 }
 
+
+
+
 void menuViajarBegin(){
 	welcomeMenu();
-	unsigned int userChoice;
+	string userChoice;
 	setcolor(11);
 	cout << "Escolha o seu ponto de partida:" << endl;
 	setcolor(15);
-	for(unsigned int i = 0; i < graph.getVerts().size() ; i++){
+
+	/*for(unsigned int i = 0; i < graph.getVerts().size() ; i++){
 		cout << i + 1 << ". " << graph.getVerts()[i]->getID() << endl;
-	}
+	}/**/
+
 	cin >> userChoice;
+	vector<Vertex<Node,Way>*> res;
+	res=graph.findStationExat(userChoice);
+	int option= -1;
+
+	if(res.size()==0){
+		res = graph.findStationAprox(userChoice);
+		while(option <= 0 || option > res.size()){
+			welcomeMenu();
+			cout << "Escolha o seu ponto de partida:" << endl;
+			for (int i = 1; i <= res.size(); ++i) {
+				cout << i << ".  " << res[i-1]->getInfo().getParagem() << endl;
+			}
+			cin >> option;
+		}
+
+	}else if(res.size()==1)
+		inicio=res[0];
+	else{
+
+		while(option <= 0 || option > res.size()){
+			welcomeMenu();
+			cout << "Escolha o seu ponto de partida:" << endl;
+			for (int i = 1; i <= res.size(); ++i) {
+				cout << i << ".  " << res[i-1]->getInfo().getParagem() << endl;
+			}
+			cin >> option;
+		}
+
+		inicio= res[option - 1];
+	}
+
+	/*
 	while(userChoice > graph.getVerts().size() || userChoice <= 0){
 		setcolor(12);
 		cout << "O ponto que escolheu nao existe." << endl;
 		setcolor(15);
 		cout << "Por favor volte a escolher:";
 		cin >> userChoice;
-	}
-	inicio = graph.getVerts()[userChoice - 1];
+	}*/
+	//inicio = graph.getVerts()[userChoice - 1];
+
 	return;
 }
 

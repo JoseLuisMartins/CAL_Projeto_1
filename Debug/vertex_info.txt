@@ -1,16 +1,14 @@
 1;100;375;Senhora da Hora;
-11;200;253;Sh Train;
-12;200;353;Sh Subway;
-13;200;453;Sh Bus;
+11;200;253;Senhora da Hora Train;
+12;200;353;Senhora da Hora Subway;
+13;200;453;Senhora da Hora Bus;
 2;800;200;Trindade;
-21;654;103;T Train;
-22;654;240;T Subway;
+21;654;103;Trindade Train;
+22;654;240;Trindade Subway;
 4;800;600;Sao Bento;
-42;670;550;SB Subway;
-43;670;650;SB Bus;
-3;1350;120;I.S.E.P.;
-31;1200;120;I Train;
+42;670;550;Sao Bento Subway;
+43;670;650;Sao Bento Bus;
+3;1350;120;ISEP;
+31;1200;120;ISEP Train;
 5;1350;670;Contumil;
-53;1200;670;C Bus;
-
-
+53;1200;670;Contumil Bus;

@@ -434,7 +434,7 @@ vector<Edge<A,B>*> Graph<A,B>::getWays(){
 				rep = false;
 				continue;
 			}
-			res.push_back(verts[i].getEdges()[j]);
+			res.push_back(&(verts[i].getEdges()[j]));
 		}
 	}
 	return res;
@@ -486,7 +486,7 @@ vector<Edge<A,B>*> Graph<A,B>::findLineExat(string toSearch){
 	vector<Edge<A,B>*> res;
 
 	for(unsigned int i = 0; i < ways.size(); i++){
-		if(findByNameExat(ways[i]->getWeights().getParagem(),toSearch)){
+		if(findByNameExat(ways[i]->getWeights().getLinha(),toSearch)){
 			res.push_back(ways[i]);
 		}
 	}
@@ -503,10 +503,10 @@ vector<Edge<A,B>*> Graph<A,B>::findLineAprox(string toSearch) {
 		return res;
 
 	int tmp;
-	int min = findByNameAprox(ways[0]->getInfo().getParagem(),toSearch);
+	int min = findByNameAprox(ways[0]->getWeights().getLinha(),toSearch);
 	res.push_back(ways[0]);
 	for(unsigned int i = 0; i < ways.size(); i++){
-		tmp = findByNameAprox(ways[i]->getInfo().getParagem(),toSearch);
+		tmp = findByNameAprox(ways[i]->getWeights().getLinha(),toSearch);
 		if(tmp < min){
 			min = tmp;
 			res.erase(res.begin(),res.end());
