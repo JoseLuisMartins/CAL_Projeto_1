@@ -12,3 +12,16 @@
 31;1200;120;ISEP Train;
 5;1350;670;Contumil;
 53;1200;670;Contumil Bus;
+911;-200;253;Combatentes Train;
+912;-200;353;Combatentes Subway;
+913;-200;453;Combatentes Bus;
+92;-800;200;Salgueiros;
+921;-654;103;Salgueiros Train;
+922;-654;240;Salgueiros Subway;
+94;-800;600;Polo;
+942;-670;550;Polo Subway;
+943;-670;650;Polo Bus;
+93;-1350;120;Sao Joao;
+931;-1200;120;Sao Joao Train;
+95;-1350;670;Aliados;
+953;-1200;670;Aliados Bus;
