@@ -120,12 +120,11 @@ Graph<Node, Way> loadTxt(){
 		ss >> id >> lixo >> lat >> lixo >> lon >> lixo;
 		cout << "Tamanho:" << split(line,';').size() << " ";
 		paragem = split(line,';')[3];
-		cout << paragem << endl;
 		Node n(id,lat,lon,paragem);
 		nodes[id] = n;
 		g.addVertex(n, id);
 		gv->addNode(id, lat*1.5, lon*1.5);
-
+		gv->setVertexLabel(id,paragem);
 	}
 	file.close();
 
