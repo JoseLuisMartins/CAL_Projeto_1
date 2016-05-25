@@ -2,10 +2,11 @@
 #include "Node.h"
 
 
-Node::Node(int id, double latitude, double longitude) {
+Node::Node(int id, double latitude, double longitude,string paragem) {
 	this->id = id;
 	this->lat = latitude;
 	this->longe = longitude;
+	this->paragem = paragem;
 }
 
 
@@ -40,4 +41,12 @@ std::ostream & operator<<(std::ostream &o , const Node& n1){
 	if(n1.getID() < 10)
 		o << " ";
 	return o;
+}
+
+string Node::getParagem(){
+	return paragem;
+}
+
+void Node::setParagem(string p){
+	paragem = p;
 }

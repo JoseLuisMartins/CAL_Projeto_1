@@ -66,5 +66,6 @@ void setcolor(unsigned int color);
 
 void setcolor(unsigned int color, unsigned int background_color);
 
+int * computePrefixFunction(string toSearch);
 
 #endif

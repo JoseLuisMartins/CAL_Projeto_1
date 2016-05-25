@@ -10,12 +10,13 @@
 
 
 
-Way::Way(int id, string name, Transport::Type type){
+Way::Way(int id, string name, Transport::Type type, string l){
 
 	this->id = id;
 	this->name = name;
 	this->type = type;
 	this->distance = distance;
+	this->linha = l;
 }
 
 Way::~Way() {
@@ -55,4 +56,12 @@ Transport::Type Way::getType() const{
 
 void Way::setDistance(double dist){
 	distance=dist;
+}
+
+string Way::getLinha() const {
+	return linha;
+}
+
+void Way::setLinha(string l){
+	this->linha = l;
 }

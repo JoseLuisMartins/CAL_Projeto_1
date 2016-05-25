@@ -23,11 +23,12 @@ class Way {
 	string name;
 	double distance;
 	Transport::Type type;
+	string linha;
 
 
 public:
 	Way(){}
-	Way(int id, string name, Transport::Type type);
+	Way(int id, string name, Transport::Type type, string linha);
 	virtual ~Way();
 
 	/**
@@ -70,6 +71,18 @@ public:
 	 * @return o tipo de transporte
 	 */
 	Transport::Type getType() const;
+
+	/**
+	 * Funcao get para o nome da linha
+	 * @return o nome da linha
+	 */
+	string getLinha() const;
+
+	/*
+	 * Funcao set para o nome da linha
+	 * @param l novo nome da linha
+	 */
+	void setLinha(string l);
 };
 
 #endif /* WAY_H_ */

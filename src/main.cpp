@@ -41,6 +41,10 @@ void menuViajarEnd();
 void menuViajarModo();
 void menuDisplayViagem();
 void menuSelection();
+/*PARTE 2*/
+void menuPesquisaPorNome();
+void menuProcurarParagem();
+
 
 void MiniSlave(Node n1, Node n2,Way w, Graph<Node,Way>& g){
 	w.setDistance(n1.calcDist(n2));
@@ -107,8 +111,9 @@ Graph<Node, Way> loadTxt(){
 		stringstream ss(line);
 		int id;
 		long lat, lon;
-		ss >> id >> lixo >> lat >> lixo >> lon;
-		Node n(id,lat,lon);
+		string paragem;
+		ss >> id >> lixo >> lat >> lixo >> lon >> lixo >> paragem;
+		Node n(id,lat,lon,paragem);
 		nodes[id] = n;
 		g.addVertex(n, id);
 		gv->addNode(id, lat*1.5, lon*1.5);
@@ -121,6 +126,7 @@ Graph<Node, Way> loadTxt(){
 		int id;
 		vector<string> res = split(line, ';');
 		string n = res[1];
+		string linha = res[3];
 		bool isTwoWay = true;
 		Transport::Type t;
 
@@ -146,7 +152,7 @@ Graph<Node, Way> loadTxt(){
 
 
 
-		Way w(id, n, t);//calcular distancia...
+		Way w(id, n, t, linha);//calcular distancia...
 
 		WayInfo wI;
 		wI.bothWays=isTwoWay;
@@ -180,7 +186,7 @@ Graph<Node, Way> loadTxt(){
 		gv->setEdgeThickness(w.getID(),25);
 
 		stringstream s;
-		s << w.getID() << "|" << w.getName() <<" | " << w.getDistance() << " m |" << w.getPrice() << " €|" << w.getTime() << " s" ;
+		s << w.getID() << "|" << w.getName() <<" | " << w.getDistance() << " m |" << w.getPrice() << " €|" << w.getTime() << " s" << " |" << w.getLinha();
 		gv->setEdgeLabel(w.getID(),s.str());
 	}
 	file.close();

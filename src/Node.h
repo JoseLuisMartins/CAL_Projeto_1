@@ -6,6 +6,10 @@
 
 #include <iostream>
 #include <cmath>
+#include <string>
+
+using namespace std;
+
 
 /**
  * Classe Node responsavel pelos vértices do grafo
@@ -15,10 +19,12 @@ class Node {
 	int id;
 	double lat;
 	double longe;
+	string paragem;
+
 
 public:
 	Node(){}
-	Node(int id, double latitude, double longitude);
+	Node(int id, double latitude, double longitude,string paragem);
 
 	/**
 	 * Funcao que calcula a distancia entre dois nodes
@@ -43,6 +49,18 @@ public:
 	 * @return a longitude do node
 	 */
 	double getLongitude() const;
+
+	/*
+	 * Funcao get para o nome da paragem
+	 * @return o nome da paragem
+	 */
+	string getParagem();
+
+	/*
+	 * Funcao set para o nome de paragem
+	 * @param p novo nome da paragem
+	 */
+	void setParagem(string p);
 };
 
 bool operator==(const Node& n1, const Node& n2);
