@@ -286,7 +286,7 @@ void menuPesquisaParagem(){
 
 
 	welcomeMenu();
-	setcolor(11);
+	setcolor(15);
 
 	for(unsigned int i = 0; i < temp->getEdges().size(); i++){
 		if(temp->getEdges()[i].getWeights().getLinha() == linhas[option-1]){
@@ -481,8 +481,9 @@ void menuViajarEnd(){
 	setcolor(3);
 	cout << "Ponto de Destino: ";
 	setcolor(15);
-	inicio->imprime();
-	cout << endl;
+	cout << inicio->getInfo().getParagem() << endl << endl;
+
+	cout << "Escolha o seu ponto de destino:" << endl;
 
 	fim =  menuPimpao("Escolha o Vertice de Destino:");
 

@@ -138,12 +138,18 @@ public:
 
 	vector<Vertex<A,B>*> findStationAprox(string toSearch);
 
+	int auxFindStationAprox(string searching,string toSearch);
+
 	vector<Edge<A,B>*> findLineExat(string toSearch);
 
 	vector<Edge<A,B>*> findLineAprox(string toSearch);
 
 	vector<Edge<A,B>*> getWays();
 };
+
+
+
+
 
 template<class A, class B>
 vector<Vertex<A,B>*> Graph<A,B>::getVerts(){
@@ -467,6 +473,23 @@ vector<Vertex<A,B>*> Graph<A,B>::findStationExat(string toSearch){
 }
 
 template <class A, class B>
+int Graph<A,B>::auxFindStationAprox(string searching,string toSearch) {
+	stringstream s(searching);
+
+	unsigned int res = -1;
+	unsigned int resTmp;
+
+	string tmp;
+	while(s >> tmp){
+		resTmp = findByNameAprox(tmp,toSearch);
+		if(resTmp < res)
+			res = resTmp;
+	}
+
+	return res;
+}
+
+template <class A, class B>
 vector<Vertex<A,B>*> Graph<A,B>::findStationAprox(string toSearch) {
 	vector<Vertex<A,B>*> res;
 
@@ -477,12 +500,13 @@ vector<Vertex<A,B>*> Graph<A,B>::findStationAprox(string toSearch) {
 	string s =verts[0]->getInfo().getParagem();
 	stringToLower(toSearch);
 
+
 	int tmp;
-	int min = findByNameAprox(stringToLower(s),toSearch);
+	int min = auxFindStationAprox(stringToLower(s),toSearch);
 	res.push_back(verts[0]);
-	for(unsigned int i = 0; i < verts.size(); i++){
+	for(unsigned int i = 1; i < verts.size(); i++){
 		s=verts[i]->getInfo().getParagem();
-		tmp = findByNameAprox(stringToLower(s),toSearch);
+		tmp = auxFindStationAprox(stringToLower(s),toSearch);
 		if(tmp < min){
 			min = tmp;
 			res.erase(res.begin(),res.end());
