@@ -212,26 +212,33 @@ void menuSelection(){
 	char userChoice = 0;
 	cout << endl;
 	setcolor(11);
-	cout << "Escolha uma opcao selecionando o numero que a antecede." << endl;
-	setcolor(15);
-	if(!graph.isConex()){
-		setcolor(12);
-		cout << "ATENCAO! A rede nao se encontra 100% conectada!" << endl;
-		setcolor(15);
-	}
-	cout << "1. Viajar;" << endl;
-	cout << "2. Avaliar Conectividade;" << endl;
-	cout << "3. Pesquisa em profundidade;" << endl;
-	cout << "4. Pesquisa paragem em linha;" << endl;
-	cout << "5. Sair." << endl;
-	cin >> userChoice;
-	//userChoice = getch();
 
-	while(!(userChoice == '1' || userChoice == '2' || userChoice == '3' || userChoice == '4' || userChoice == '5' )){
-		cout << "Opcao errada, por favor tente novamente!" << endl;
+	bool first=true;
+	do{
+
+		if(!first){
+			welcomeMenu();
+			setcolor(12);
+			cout << "Opcao errada, por favor tente novamente!" << endl;
+			setcolor(15);
+		}
+
+		cout << "Escolha uma opcao selecionando o numero que a antecede." << endl;
+		setcolor(15);
+		if(!graph.isConex()){
+			setcolor(12);
+			cout << "ATENCAO! A rede nao se encontra 100% conectada!" << endl;
+			setcolor(15);
+		}
+		cout << "1. Viajar;" << endl;
+		cout << "2. Avaliar Conectividade;" << endl;
+		cout << "3. Pesquisa em profundidade;" << endl;
+		cout << "4. Pesquisa paragem em linha;" << endl;
+		cout << "5. Sair." << endl;
 		cin >> userChoice;
-		//userChoice = getch();
-	}
+
+		first = false;
+	}while(!(userChoice == '1' || userChoice == '2' || userChoice == '3' || userChoice == '4' || userChoice == '5' ));
 
 	switch(userChoice){
 	case '1':
